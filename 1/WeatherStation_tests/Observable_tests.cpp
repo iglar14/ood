@@ -18,36 +18,31 @@ protected:
 		return m_data;
 	}
 private:
-	int m_data = 42;
+	int m_data = 0;
 };
 
 class TestObserver : public IObserver<int>
 {
 public:
-	TestObserver(TestObservable& observable)
-		: m_observable(observable)
-	{}
-
-	bool m_shouldRemove = false;
+	std::function<void(TestObserver*)> m_updateAction;
 	int m_updateCount = 0;
 	int m_data = 0;
 private:
 	void Update(const int& data)
 	{
 		m_data = data;
-		if (m_shouldRemove)
+		if (m_updateAction)
 		{
-			m_observable.RemoveObserver(*this);
+			m_updateAction(this);
 		}
 		++m_updateCount;
 	}
-	TestObservable& m_observable;
 };
 
 BOOST_AUTO_TEST_CASE(Notofies_observers)
 {
 	TestObservable o;
-	TestObserver obs1(o), obs2(o);
+	TestObserver obs1, obs2;
 	o.SetData(13);
 	BOOST_CHECK_EQUAL(obs1.m_data, 0);
 	BOOST_CHECK_EQUAL(obs1.m_updateCount, 0);
@@ -78,12 +73,12 @@ BOOST_AUTO_TEST_CASE(Notofies_observers)
 BOOST_AUTO_TEST_CASE(Can_unsubscribe_during_update)
 {
 	TestObservable o;
-	TestObserver obs1(o), obs2(o), obs3(o);
+	TestObserver obs1, obs2, obs3;
 	o.RegisterObserver(obs1);
 	o.RegisterObserver(obs2);
 	o.RegisterObserver(obs3);
 
-	obs1.m_shouldRemove = true;
+	obs1.m_updateAction = [&](TestObserver* observer) { o.RemoveObserver(*observer); };
 	o.SetData(11);
 
 	BOOST_CHECK_EQUAL(obs1.m_data, 11);
@@ -94,4 +89,29 @@ BOOST_AUTO_TEST_CASE(Can_unsubscribe_during_update)
 
 	BOOST_CHECK_EQUAL(obs3.m_data, 11);
 	BOOST_CHECK_EQUAL(obs3.m_updateCount, 1);
+}
+
+BOOST_AUTO_TEST_CASE(Orders_by_priority)
+{
+	TestObservable observable;
+	TestObserver obs1, obs2, obs3, obs4, obs5, obs6;
+	std::vector<TestObserver*> updates;
+	obs1.m_updateAction = obs2.m_updateAction = obs3.m_updateAction = obs4.m_updateAction = obs5.m_updateAction = obs6.m_updateAction
+		= [&](TestObserver* o) { updates.push_back(o); };
+	observable.RegisterObserver(obs1, 30);
+	observable.RegisterObserver(obs2, 0);
+	observable.RegisterObserver(obs3, 10);
+	observable.RegisterObserver(obs4, 0);
+	observable.RegisterObserver(obs5, 10);
+	observable.RegisterObserver(obs6, 30);
+
+	observable.SetData(11);
+
+	BOOST_CHECK_EQUAL(updates.size(), 6u);
+	BOOST_CHECK_EQUAL(updates[0], &obs2);
+	BOOST_CHECK_EQUAL(updates[1], &obs4);
+	BOOST_CHECK_EQUAL(updates[2], &obs3);
+	BOOST_CHECK_EQUAL(updates[3], &obs5);
+	BOOST_CHECK_EQUAL(updates[4], &obs1);
+	BOOST_CHECK_EQUAL(updates[5], &obs6);
 }

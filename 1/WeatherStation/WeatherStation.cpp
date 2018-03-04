@@ -5,10 +5,10 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	CWeatherData wd;
 	CDisplay disp;
-	wd.RegisterObserver(disp);
+	wd.RegisterObserver(disp, 10);
 
 	CStatsDisplay statd;
-	wd.RegisterObserver(statd);
+	wd.RegisterObserver(statd, 0);
 
 	wd.SetMeasurements(10., 50., 760.);
 	wd.SetMeasurements(15., 56., 750.);

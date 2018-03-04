@@ -23,7 +23,7 @@ class IObservable
 {
 public:
 	virtual ~IObservable() = default;
-	virtual void RegisterObserver(IObserver<T> & observer) = 0;
+	virtual void RegisterObserver(IObserver<T> & observer, int priority = 0) = 0;
 	virtual void NotifyObservers() = 0;
 	virtual void RemoveObserver(IObserver<T> & observer) = 0;
 };
@@ -34,25 +34,28 @@ class CObservable : public IObservable<T>
 {
 public:
 	typedef IObserver<T> ObserverType;
+	struct observer {};
+	struct priority {};
+	typedef boost::bimap<boost::bimaps::tagged<ObserverType*, observer>, boost::bimaps::multiset_of<boost::bimaps::tagged<int, priority>>> observers_bimap;
 
-	void RegisterObserver(ObserverType & observer) override
+	void RegisterObserver(ObserverType & obs, int pr = 0) override
 	{
-		m_observers.insert(&observer);
+		m_observers.insert({ &obs, pr });
 	}
 
 	void NotifyObservers() override
 	{
 		T data = GetChangedData();
 		const auto observers = m_observers;
-		for (auto & observer : observers)
+		for (auto iter = observers.by<priority>().begin(); iter != observers.by<priority>().end(); ++iter)
 		{
-			observer->Update(data);
+			iter->get<observer>()->Update(data);
 		}
 	}
 
-	void RemoveObserver(ObserverType & observer) override
+	void RemoveObserver(ObserverType& obs) override
 	{
-		m_observers.erase(&observer);
+		m_observers.by<observer>().erase(&obs);
 	}
 
 protected:
@@ -61,5 +64,5 @@ protected:
 	virtual T GetChangedData()const = 0;
 
 private:
-	std::set<ObserverType *> m_observers;
+	observers_bimap m_observers;
 };
