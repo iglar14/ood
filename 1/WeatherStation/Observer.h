@@ -1,8 +1,5 @@
 ﻿#pragma once
 
-#include <set>
-#include <functional>
-
 /*
 Шаблонный интерфейс IObserver. Его должен реализовывать класс, 
 желающий получать уведомления от соответствующего IObservable

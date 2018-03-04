@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Observer.h"
+#include "Stats.h"
 
 using namespace std;
 
@@ -35,28 +36,21 @@ private:
 	*/
 	void Update(SWeatherInfo const& data) override
 	{
-		if (m_minTemperature > data.temperature)
-		{
-			m_minTemperature = data.temperature;
-		}
-		if (m_maxTemperature < data.temperature)
-		{
-			m_maxTemperature = data.temperature;
-		}
-		m_accTemperature += data.temperature;
-		++m_countAcc;
-
-		std::cout << "Max Temp " << m_maxTemperature << std::endl;
-		std::cout << "Min Temp " << m_minTemperature << std::endl;
-		std::cout << "Average Temp " << (m_accTemperature / m_countAcc) << std::endl;
+		UpdateStats(m_temperature, data.temperature);
+		UpdateStats(m_humidity, data.humidity);
+		UpdateStats(m_pressure, data.pressure);
 		std::cout << "----------------" << std::endl;
 	}
 
-	double m_minTemperature = std::numeric_limits<double>::infinity();
-	double m_maxTemperature = -std::numeric_limits<double>::infinity();
-	double m_accTemperature = 0;
-	unsigned m_countAcc = 0;
+	void UpdateStats(CAnnotatedStats& st, double val)
+	{
+		st += val;
+		st.Print();
+	}
 
+	CAnnotatedStats m_temperature = CAnnotatedStats("Temp");
+	CAnnotatedStats m_humidity = CAnnotatedStats("Hum");
+	CAnnotatedStats m_pressure = CAnnotatedStats("Pressure");
 };
 
 class CWeatherData : public CObservable<SWeatherInfo>
