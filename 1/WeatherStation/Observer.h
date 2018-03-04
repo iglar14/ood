@@ -43,7 +43,8 @@ public:
 	void NotifyObservers() override
 	{
 		T data = GetChangedData();
-		for (auto & observer : m_observers)
+		const auto observers = m_observers;
+		for (auto & observer : observers)
 		{
 			observer->Update(data);
 		}
