@@ -20,10 +20,11 @@ private:
 	*/
 	void Update(SWeatherInfo const& data) override
 	{
-		std::cout << "Current Temp " << data.temperature << std::endl;
-		std::cout << "Current Hum " << data.humidity << std::endl;
-		std::cout << "Current Pressure " << data.pressure << std::endl;
-		std::cout << "----------------" << std::endl;
+		std::cout << "Current\tTemp\tHum\tPressure\n\t";
+		std::cout << data.temperature << '\t';
+		std::cout << data.humidity << '\t';
+		std::cout << data.pressure << "\t\n";
+		std::cout << "----------------\n";
 	}
 };
 
@@ -50,7 +51,7 @@ private:
 
 	CAnnotatedStats m_temperature = CAnnotatedStats("Temp");
 	CAnnotatedStats m_humidity = CAnnotatedStats("Hum");
-	CAnnotatedStats m_pressure = CAnnotatedStats("Pressure");
+	CAnnotatedStats m_pressure = CAnnotatedStats("Press");
 };
 
 class CWeatherData : public CObservable<SWeatherInfo>

@@ -22,7 +22,8 @@ public:
 		: m_name(name)
 	{}
 
-	void Print();
+	static void PrintHeader();
+	void Print() const;
 private:
 	std::string m_name;
 };

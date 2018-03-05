@@ -3,15 +3,24 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	CWeatherData wd;
+	CWeatherData wdIn, wdOut;
 	CDisplay disp;
-	wd.RegisterObserver(disp, 10);
+	wdIn.RegisterObserver(disp, 10);
+	wdOut.RegisterObserver(disp, 10);
 
 	CStatsDisplay statd;
-	wd.RegisterObserver(statd, 0);
+	wdIn.RegisterObserver(statd, 0);
+	wdOut.RegisterObserver(statd, 0);
 
-	wd.SetMeasurements(10., 50., 760.);
-	wd.SetMeasurements(15., 56., 750.);
+	wdOut.SetMeasurements(10., 50., 760.);
+	wdIn.SetMeasurements(22., 40., 760.);
+	wdOut.SetMeasurements(15., 56., 750.);
+	wdIn.SetMeasurements(22., 40., 750.);
+	wdOut.SetMeasurements(16., 60., 746.);
+	wdIn.SetMeasurements(21., 42., 746.);
+	wdOut.SetMeasurements(14., 60., 746.);
+	wdOut.SetMeasurements(12., 60., 752.);
+	wdIn.SetMeasurements(21., 42., 752.);
 
 	return 0;
 }
