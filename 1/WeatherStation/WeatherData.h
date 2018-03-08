@@ -6,6 +6,7 @@ using namespace std;
 
 struct SWeatherInfo
 {
+	std::string id;
 	double temperature = 0;
 	double humidity = 0;
 	double pressure = 0;
@@ -20,6 +21,7 @@ private:
 	*/
 	void Update(SWeatherInfo const& data) override
 	{
+		std::cout << data.id << std::endl;
 		std::cout << "Current\tTemp\tHum\tPressure\n\t";
 		std::cout << data.temperature << '\t';
 		std::cout << data.humidity << '\t';
@@ -30,33 +32,34 @@ private:
 
 class CStatsDisplay : public IObserver<SWeatherInfo>
 {
+public:
+	CStatsDisplay(const IStatsPrinterPtr& printer);
+
 private:
+	struct StatsData
+	{
+		CStats temperature, humidity, pressure;
+	};
+	typedef std::map<std::string, StatsData> StatsMap;	// Statistics from different devices
+
 	/* Метод Update сделан приватным, чтобы ограничить возможность его вызова напрямую
 	Классу CObservable он будет доступен все равно, т.к. в интерфейсе IObserver он
 	остается публичным
 	*/
-	void Update(SWeatherInfo const& data) override
-	{
-		UpdateStats(m_temperature, data.temperature);
-		UpdateStats(m_humidity, data.humidity);
-		UpdateStats(m_pressure, data.pressure);
-		std::cout << "----------------" << std::endl;
-	}
+	void Update(SWeatherInfo const& data) override;
+	void UpdateStats(CStats& st, double val, const std::string& name);
 
-	void UpdateStats(CAnnotatedStats& st, double val)
-	{
-		st += val;
-		st.Print();
-	}
-
-	CAnnotatedStats m_temperature = CAnnotatedStats("Temp");
-	CAnnotatedStats m_humidity = CAnnotatedStats("Hum");
-	CAnnotatedStats m_pressure = CAnnotatedStats("Press");
+	StatsMap m_stats;
+	const IStatsPrinterPtr m_printer;
 };
 
 class CWeatherData : public CObservable<SWeatherInfo>
 {
 public:
+	CWeatherData(const std::string& id = std::string())
+		: m_id(id)
+	{}
+
 	// Температура в градусах Цельсия
 	double GetTemperature()const
 	{
@@ -90,12 +93,14 @@ protected:
 	SWeatherInfo GetChangedData()const override
 	{
 		SWeatherInfo info;
+		info.id = m_id;
 		info.temperature = GetTemperature();
 		info.humidity = GetHumidity();
 		info.pressure = GetPressure();
 		return info;
 	}
 private:
+	const std::string m_id;
 	double m_temperature = 0.0;
 	double m_humidity = 0.0;	
 	double m_pressure = 760.0;	

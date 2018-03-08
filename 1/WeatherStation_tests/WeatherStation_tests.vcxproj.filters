@@ -13,12 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="External Sources">
+      <UniqueIdentifier>{3a65677f-8d30-4c6f-84c0-837bd07b6c22}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MockObserver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -28,6 +34,18 @@
     </ClCompile>
     <ClCompile Include="Observable_tests.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WeatherData_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StatsDisplay_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\WeatherStation\Stats.cpp">
+      <Filter>External Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\WeatherStation\WeatherData.cpp">
+      <Filter>External Sources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

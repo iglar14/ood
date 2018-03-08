@@ -1,5 +1,7 @@
 #include "stdafx.h"
-#include "..\WeatherStation\Observer.h"
+#include "MockObserver.h"
+
+typedef MockObserver<int> TestObserver;
 
 class TestObservable : public CObservable<int>
 {
@@ -21,28 +23,10 @@ private:
 	int m_data = 0;
 };
 
-class TestObserver : public IObserver<int>
-{
-public:
-	std::function<void(TestObserver*)> m_updateAction;
-	int m_updateCount = 0;
-	int m_data = 0;
-private:
-	void Update(const int& data)
-	{
-		m_data = data;
-		if (m_updateAction)
-		{
-			m_updateAction(this);
-		}
-		++m_updateCount;
-	}
-};
-
 BOOST_AUTO_TEST_CASE(Notofies_observers)
 {
 	TestObservable o;
-	TestObserver obs1, obs2;
+	TestObserver obs1(0), obs2(0);
 	o.SetData(13);
 	BOOST_CHECK_EQUAL(obs1.m_data, 0);
 	BOOST_CHECK_EQUAL(obs1.m_updateCount, 0);
@@ -73,7 +57,7 @@ BOOST_AUTO_TEST_CASE(Notofies_observers)
 BOOST_AUTO_TEST_CASE(Can_unsubscribe_during_update)
 {
 	TestObservable o;
-	TestObserver obs1, obs2, obs3;
+	TestObserver obs1(0), obs2(0), obs3(0);
 	o.RegisterObserver(obs1);
 	o.RegisterObserver(obs2);
 	o.RegisterObserver(obs3);

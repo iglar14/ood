@@ -3,12 +3,12 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	CWeatherData wdIn, wdOut;
+	CWeatherData wdIn("in"), wdOut("out");
 	CDisplay disp;
 	wdIn.RegisterObserver(disp, 10);
 	wdOut.RegisterObserver(disp, 10);
 
-	CStatsDisplay statd;
+	CStatsDisplay statd(std::make_shared<CStatsPrinter>());
 	wdIn.RegisterObserver(statd, 0);
 	wdOut.RegisterObserver(statd, 0);
 

@@ -15,13 +15,18 @@ void CStats::operator+=(double val)
 	++m_countAcc;
 }
 
-void CAnnotatedStats::PrintHeader()
+void CStatsPrinter::PrintHeader(const std::string& id) const
 {
-	std::cout << "\tMax\tMin\tAverage\n";
+	std::cout << id.c_str() << "\tMax\tMin\tAverage\n";
 }
 
-void CAnnotatedStats::Print() const
+void CStatsPrinter::Print(const std::string& name, const CStats& stats) const
 {
-	const char* name = m_name.c_str();
-	std::cout << name << "\t" << GetMax() << "\t" << GetMin() << "\t" << GetAvg() << std::endl;
+	const char* pName = name.c_str();
+	std::cout << pName << "\t" << stats.GetMax() << "\t" << stats.GetMin() << "\t" << stats.GetAvg() << std::endl;
 }
+
+void CStatsPrinter::PrintBottom() const
+{
+	std::cout << "------\n";
+};
