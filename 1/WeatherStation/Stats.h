@@ -1,17 +1,41 @@
 #pragma once
 
+struct SWindInfo;
+
+struct SMinMax
+{
+	void operator +=(double val);
+
+	double min = std::numeric_limits<double>::infinity();
+	double max = -std::numeric_limits<double>::infinity();
+};
+
 class CStats
 {
 public:
 	void operator+=(double val);
-	double GetMax() const { return m_max; }
-	double GetMin() const { return m_min; }
+	double GetMax() const { return m_minmax.max; }
+	double GetMin() const { return m_minmax.min; }
 	double GetAvg() const { return m_acc / m_countAcc; }
 
 private:
-	double m_min = std::numeric_limits<double>::infinity();
-	double m_max = -std::numeric_limits<double>::infinity();
+	SMinMax m_minmax;
 	double m_acc = 0;
+	unsigned m_countAcc = 0;
+};
+
+class CWindStats
+{
+public:
+	void operator+=(SWindInfo& wind);
+	double GetMax() const { return m_minmaxSpeed.max; }
+	double GetMin() const { return m_minmaxSpeed.min; }
+	SWindInfo GetAvg() const;
+
+private:
+	SMinMax m_minmaxSpeed;
+	double m_accX = 0;
+	double m_accY = 0;
 	unsigned m_countAcc = 0;
 };
 

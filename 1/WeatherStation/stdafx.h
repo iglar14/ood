@@ -11,5 +11,8 @@
 #include <climits>
 #include <set>
 #include <functional>
+
+#define _USE_MATH_DEFINES
+#include <math.h>
 #include <boost/bimap.hpp>
 #include <boost/bimap/multiset_of.hpp>

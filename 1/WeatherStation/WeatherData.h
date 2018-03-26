@@ -4,12 +4,18 @@
 
 using namespace std;
 
+struct SWindInfo
+{
+	double speed = 0;
+	double direction = 0;	// Degrees
+};
 struct SWeatherInfo
 {
 	std::string id;
 	double temperature = 0;
 	double humidity = 0;
 	double pressure = 0;
+	SWindInfo wind;
 };
 
 class CDisplay: public IObserver<SWeatherInfo>
@@ -22,10 +28,12 @@ private:
 	void Update(SWeatherInfo const& data) override
 	{
 		std::cout << data.id << std::endl;
-		std::cout << "Current\tTemp\tHum\tPressure\n\t";
+		std::cout << "Current\tTemp\tHum\tPressure\nWind direction\tspeed";
 		std::cout << data.temperature << '\t';
 		std::cout << data.humidity << '\t';
-		std::cout << data.pressure << "\t\n";
+		std::cout << data.pressure << '\t';
+		std::cout << data.wind.direction << "\t\t";
+		std::cout << data.wind.speed << "\t\n";
 		std::cout << "----------------\n";
 	}
 };
@@ -39,6 +47,7 @@ private:
 	struct StatsData
 	{
 		CStats temperature, humidity, pressure;
+		CWindStats wind;
 	};
 	typedef std::map<std::string, StatsData> StatsMap;	// Statistics from different devices
 
