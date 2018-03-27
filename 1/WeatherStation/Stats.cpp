@@ -24,6 +24,11 @@ void SMinMax::operator +=(double val)
 	}
 }
 
+double CStats::GetAvg() const
+{
+	return (m_countAcc > 0) ? m_acc / m_countAcc : 0;
+}
+
 void CStats::operator+=(double val)
 {
 	m_minmax += val;
@@ -31,7 +36,7 @@ void CStats::operator+=(double val)
 	++m_countAcc;
 }
 
-void CWindStats::operator+=(SWindInfo& wind)
+void CWindStats::operator+=(const SWindInfo& wind)
 {
 	m_minmaxSpeed += wind.speed;
 	const double x = cos(DegToRad(wind.direction)) * wind.speed;
@@ -44,23 +49,34 @@ void CWindStats::operator+=(SWindInfo& wind)
 SWindInfo CWindStats::GetAvg() const
 {
 	SWindInfo info;
-	info.direction = RadToDeg(atan2(m_accY, m_accX));
-	info.speed = sqrt(m_accX * m_accX + m_accY * m_accY) / m_countAcc;
+	if (m_countAcc > 0)
+	{
+		info.direction = RadToDeg(atan2(m_accY, m_accX));
+		info.speed = sqrt(m_accX * m_accX + m_accY * m_accY) / m_countAcc;
+	}
 	return info;
 }
 
 void CStatsPrinter::PrintHeader(const std::string& id) const
 {
-	std::cout << id.c_str() << "\tMax\tMin\tAverage\n";
+	cout << id.c_str() << "\tMax\tMin\tAverage\n";
 }
 
 void CStatsPrinter::Print(const std::string& name, const CStats& stats) const
 {
 	const char* pName = name.c_str();
-	std::cout << pName << "\t" << stats.GetMax() << "\t" << stats.GetMin() << "\t" << stats.GetAvg() << std::endl;
+	cout << pName << "\t" << stats.GetMax() << "\t" << stats.GetMin() << "\t" << stats.GetAvg() << std::endl;
+}
+
+void CStatsPrinter::Print(const std::string& name, const CWindStats& stats) const
+{
+	const char* pName = name.c_str();
+	cout << pName << "\t" << stats.GetMax() << "\t" << stats.GetMin() << "\t";
+	SWindInfo windInfo = stats.GetAvg();
+	cout << "Direction: " << windInfo.direction << " Speed: " << windInfo.speed << std::endl;
 }
 
 void CStatsPrinter::PrintBottom() const
 {
-	std::cout << "------\n";
+	cout << "------\n";
 };

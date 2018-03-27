@@ -16,7 +16,7 @@ public:
 	void operator+=(double val);
 	double GetMax() const { return m_minmax.max; }
 	double GetMin() const { return m_minmax.min; }
-	double GetAvg() const { return m_acc / m_countAcc; }
+	double GetAvg() const;
 
 private:
 	SMinMax m_minmax;
@@ -27,7 +27,7 @@ private:
 class CWindStats
 {
 public:
-	void operator+=(SWindInfo& wind);
+	void operator+=(const SWindInfo& wind);
 	double GetMax() const { return m_minmaxSpeed.max; }
 	double GetMin() const { return m_minmaxSpeed.min; }
 	SWindInfo GetAvg() const;
@@ -46,6 +46,7 @@ public:
 
 	virtual void PrintHeader(const std::string& id) const = 0;
 	virtual void Print(const std::string& name, const CStats&) const = 0;
+	virtual void Print(const std::string& name, const CWindStats&) const = 0;
 	virtual void PrintBottom() const = 0;
 };
 
@@ -56,6 +57,7 @@ class CStatsPrinter : public IStatsPrinter
 public:
 	void PrintHeader(const std::string& id) const override;
 	void Print(const std::string& name, const CStats& stats) const override;
+	void Print(const std::string& name, const CWindStats& stats) const override;
 	void PrintBottom() const override;
 };
 
@@ -63,5 +65,6 @@ class CDummyPrinter : public IStatsPrinter
 {
 	void PrintHeader(const std::string&) const override {};
 	void Print(const std::string&, const CStats&) const override {};
+	void Print(const std::string&, const CWindStats&) const override {};
 	void PrintBottom() const override {};
 };
