@@ -15,17 +15,31 @@ struct SWeatherInfo
 	double temperature = 0;
 	double humidity = 0;
 	double pressure = 0;
+};
+
+struct SWeatherInfoIn : public SWeatherInfo
+{
+};
+
+struct SWeatherInfoOut : public SWeatherInfo
+{
 	SWindInfo wind;
 };
 
-class CDisplay: public IObserver<SWeatherInfo>
+class CDisplayIn: public IObserver<SWeatherInfoIn>
 {
 private:
 	/* Метод Update сделан приватным, чтобы ограничить возможность его вызова напрямую
 		Классу CObservable он будет доступен все равно, т.к. в интерфейсе IObserver он
 		остается публичным
 	*/
-	void Update(SWeatherInfo const& data) override;
+	void Update(SWeatherInfoIn const& data) override;
+};
+
+class CDisplayOut : public IObserver<SWeatherInfoOut>
+{
+private:
+	void Update(SWeatherInfoOut const& data) override;
 };
 
 class CStatsDisplay : public IObserver<SWeatherInfo>
@@ -53,10 +67,11 @@ private:
 	const IStatsPrinterPtr m_printer;
 };
 
-class CWeatherData : public CObservable<SWeatherInfo>
+template <typename T>
+class CWeatherDataBase : public CObservable<T>
 {
 public:
-	CWeatherData(const std::string& id = std::string())
+	CWeatherDataBase(const std::string& id = std::string())
 		: m_id(id)
 	{}
 
@@ -76,23 +91,54 @@ public:
 		return m_pressure;
 	}
 
-	SWindInfo GetWind()const
-	{
-		return m_wind;
-	}
-
 	void MeasurementsChanged()
 	{
 		NotifyObservers();
 	}
 
-	void SetMeasurements(double temp, double humidity, double pressure, double windDirection, double windSpeed);
 protected:
-	SWeatherInfo GetChangedData()const override;
+	void SetMeasurements(double temp, double humidity, double pressure)
+	{
+		m_humidity = humidity;
+		m_temperature = temp;
+		m_pressure = pressure;
+		MeasurementsChanged();
+	}
+	std::string GetId() const { return m_id; }
 private:
 	const std::string m_id;
 	double m_temperature = 0.0;
-	double m_humidity = 0.0;	
+	double m_humidity = 0.0;
 	double m_pressure = 760.0;
+};
+
+class CWeatherDataIn : public CWeatherDataBase<SWeatherInfoIn>
+{
+public:
+//	CWeatherDataIn(const std::string& id = std::string())
+//		: CWeatherDataBase(id)
+//	{}
+
+	using CWeatherDataBase::SetMeasurements;
+protected:
+	SWeatherInfoIn GetChangedData()const override;
+};
+
+class CWeatherDataOut : public CWeatherDataBase<SWeatherInfoOut>
+{
+public:
+//	CWeatherDataOut(const std::string& id = std::string())
+//		: CWeatherDataBase(id)
+//	{}
+
+	SWindInfo GetWind()const
+	{
+		return m_wind;
+	}
+
+	void SetMeasurements(double temp, double humidity, double pressure, double windDirection, double windSpeed);
+protected:
+	SWeatherInfoOut GetChangedData()const override;
+private:
 	SWindInfo m_wind;
 };

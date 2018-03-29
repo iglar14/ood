@@ -30,7 +30,17 @@ void CStatsDisplay::UpdateStats(CWindStats& st, const SWindInfo& val)
 	m_printer->Print("Wind", st);
 }
 
-void CDisplay::Update(SWeatherInfo const& data)
+void CDisplayIn::Update(SWeatherInfoIn const& data)
+{
+	cout << data.id << std::endl;
+	cout << "Current\tTemp\tHum\tPres\tWind direction\tspeed\n\t";
+	cout << data.temperature << '\t';
+	cout << data.humidity << '\t';
+	cout << data.pressure << "\t\t";
+	cout << "----------------\n";
+}
+
+void CDisplayOut::Update(SWeatherInfoOut const& data)
 {
 	cout << data.id << std::endl;
 	cout << "Current\tTemp\tHum\tPres\tWind direction\tspeed\n\t";
@@ -42,21 +52,28 @@ void CDisplay::Update(SWeatherInfo const& data)
 	cout << "----------------\n";
 }
 
-void CWeatherData::SetMeasurements(double temp, double humidity, double pressure, double windDirection, double windSpeed)
+void CWeatherDataOut::SetMeasurements(double temp, double humidity, double pressure, double windDirection, double windSpeed)
 {
-	m_humidity = humidity;
-	m_temperature = temp;
-	m_pressure = pressure;
 	m_wind.direction = windDirection;
 	m_wind.speed = windSpeed;
 
-	MeasurementsChanged();
+	CWeatherDataBase::SetMeasurements(temp, humidity, pressure);
 }
 
-SWeatherInfo CWeatherData::GetChangedData()const
+SWeatherInfoIn CWeatherDataIn::GetChangedData()const
 {
-	SWeatherInfo info;
-	info.id = m_id;
+	SWeatherInfoIn info;
+	info.id = GetId();
+	info.temperature = GetTemperature();
+	info.humidity = GetHumidity();
+	info.pressure = GetPressure();
+	return info;
+}
+
+SWeatherInfoOut CWeatherDataOut::GetChangedData()const
+{
+	SWeatherInfoOut info;
+	info.id = GetId();
 	info.temperature = GetTemperature();
 	info.humidity = GetHumidity();
 	info.pressure = GetPressure();
