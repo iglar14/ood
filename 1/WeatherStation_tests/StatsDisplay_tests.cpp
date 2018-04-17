@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "..\WeatherStation\WeatherData.h"
 
-SWeatherInfo CreateWeatherInfo(const std::string& id, double temperature, double humidity, double pressure)
+SWeatherInfoIn CreateWeatherInfo(const std::string& id, double temperature, double humidity, double pressure)
 {
-	SWeatherInfo info;
+	SWeatherInfoIn info;
 	info.id = id;
 	info.temperature = temperature;
 	info.humidity = humidity;
@@ -31,7 +31,7 @@ struct CMockPrinter : public CDummyPrinter
 BOOST_AUTO_TEST_CASE(groups_statistics_by_id)
 {
 	auto printer = std::make_shared<CMockPrinter>();
-	std::shared_ptr<IObserver<SWeatherInfo>> statsDisplay = std::make_shared<CStatsDisplay>(printer);
+	std::shared_ptr<IObserver<SWeatherInfoIn>> statsDisplay = std::make_shared<CStatsDisplayIn>(printer);
 	statsDisplay->Update(CreateWeatherInfo("1", 10., 80., 700.));
 	
 	auto& sensors = printer->sensors;

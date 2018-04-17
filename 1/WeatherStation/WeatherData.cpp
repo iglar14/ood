@@ -1,46 +1,40 @@
 #include "stdafx.h"
 #include "WeatherData.h"
 
-CStatsDisplay::CStatsDisplay(const IStatsPrinterPtr& printer)
-	: m_printer(printer)
+void CStatsDisplayIn::Update(SWeatherInfoIn const& data)
 {
-	assert(m_printer);
+	StatsDataIn& stats = m_stats[data.id];
+	m_printer->PrintHeader(data.id);
+	CStatsDisplayBase::UpdateStats(stats, data);
+	m_printer->PrintBottom();
 }
 
-void CStatsDisplay::Update(SWeatherInfo const& data)
+void CStatsDisplayOut::Update(SWeatherInfoOut const& data)
 {
-	StatsData& stats = m_stats[data.id];
+	StatsDataOut& stats = m_stats[data.id];
 	m_printer->PrintHeader(data.id);
-	UpdateStats(stats.temperature, data.temperature, "Temp");
-	UpdateStats(stats.humidity, data.humidity, "Hum");
-	UpdateStats(stats.pressure, data.pressure, "Pres");
+	CStatsDisplayBase::UpdateStats(stats, data);
 	UpdateStats(stats.wind, data.wind);
 	m_printer->PrintBottom();
 }
 
-void CStatsDisplay::UpdateStats(CStats& st, double val, const std::string& name)
-{
-	st += val;
-	m_printer->Print(name, st);
-}
-
-void CStatsDisplay::UpdateStats(CWindStats& st, const SWindInfo& val)
+void CStatsDisplayOut::UpdateStats(CWindStats& st, const SWindInfo& val)
 {
 	st += val;
 	m_printer->Print("Wind", st);
 }
 
-void CDisplayIn::Update(SWeatherInfoIn const& data)
+void CDisplay::Update(SWeatherInfoIn const& data)
 {
 	cout << data.id << std::endl;
-	cout << "Current\tTemp\tHum\tPres\tWind direction\tspeed\n\t";
+	cout << "Current\tTemp\tHum\tPres\n\t";
 	cout << data.temperature << '\t';
 	cout << data.humidity << '\t';
 	cout << data.pressure << "\t\t";
 	cout << "----------------\n";
 }
 
-void CDisplayOut::Update(SWeatherInfoOut const& data)
+void CDisplay::Update(SWeatherInfoOut const& data)
 {
 	cout << data.id << std::endl;
 	cout << "Current\tTemp\tHum\tPres\tWind direction\tspeed\n\t";
@@ -60,23 +54,9 @@ void CWeatherDataOut::SetMeasurements(double temp, double humidity, double press
 	CWeatherDataBase::SetMeasurements(temp, humidity, pressure);
 }
 
-SWeatherInfoIn CWeatherDataIn::GetChangedData()const
-{
-	SWeatherInfoIn info;
-	info.id = GetId();
-	info.temperature = GetTemperature();
-	info.humidity = GetHumidity();
-	info.pressure = GetPressure();
-	return info;
-}
-
 SWeatherInfoOut CWeatherDataOut::GetChangedData()const
 {
-	SWeatherInfoOut info;
-	info.id = GetId();
-	info.temperature = GetTemperature();
-	info.humidity = GetHumidity();
-	info.pressure = GetPressure();
+	SWeatherInfoOut info = CWeatherDataBase::GetChangedData();
 	info.wind = GetWind();
 	return info;
 }

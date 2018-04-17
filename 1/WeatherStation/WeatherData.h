@@ -26,7 +26,7 @@ struct SWeatherInfoOut : public SWeatherInfo
 	SWindInfo wind;
 };
 
-class CDisplayIn: public IObserver<SWeatherInfoIn>
+class CDisplay: public IObserver<SWeatherInfoIn>, public IObserver<SWeatherInfoOut>
 {
 private:
 	/* Метод Update сделан приватным, чтобы ограничить возможность его вызова напрямую
@@ -34,37 +34,67 @@ private:
 		остается публичным
 	*/
 	void Update(SWeatherInfoIn const& data) override;
-};
-
-class CDisplayOut : public IObserver<SWeatherInfoOut>
-{
-private:
 	void Update(SWeatherInfoOut const& data) override;
 };
 
-class CStatsDisplay : public IObserver<SWeatherInfo>
+struct StatsData
+{
+	CStats temperature, humidity, pressure;
+};
+
+typedef StatsData StatsDataIn;
+
+struct StatsDataOut : StatsData
+{
+	CWindStats wind;
+};
+
+template<class Data, class WeatherInfo>
+class CStatsDisplayBase : public IObserver<WeatherInfo>
 {
 public:
-	CStatsDisplay(const IStatsPrinterPtr& printer);
-
-private:
-	struct StatsData
+	CStatsDisplayBase(const IStatsPrinterPtr& printer)
+		: m_printer(printer)
 	{
-		CStats temperature, humidity, pressure;
-		CWindStats wind;
-	};
-	typedef std::map<std::string, StatsData> StatsMap;	// Statistics from different devices
+		assert(m_printer);
+	}
 
-	/* Метод Update сделан приватным, чтобы ограничить возможность его вызова напрямую
-	Классу CObservable он будет доступен все равно, т.к. в интерфейсе IObserver он
-	остается публичным
-	*/
-	void Update(SWeatherInfo const& data) override;
-	void UpdateStats(CStats& st, double val, const std::string& name);
-	void UpdateStats(CWindStats& st, const SWindInfo& val);
+protected:
+	typedef std::map<std::string, Data> StatsMap;	// Statistics from different devices
+
+	void UpdateStats(StatsData& stats, const SWeatherInfo& data)
+	{
+		UpdateStats(stats.temperature, data.temperature, "Temp");
+		UpdateStats(stats.humidity, data.humidity, "Hum");
+		UpdateStats(stats.pressure, data.pressure, "Pres");
+	}
+	void UpdateStats(CStats& st, double val, const std::string& name)
+	{
+		st += val;
+		m_printer->Print(name, st);
+	}
 
 	StatsMap m_stats;
 	const IStatsPrinterPtr m_printer;
+};
+
+class CStatsDisplayIn : public CStatsDisplayBase<StatsDataIn, SWeatherInfoIn>
+{
+public:
+	using CStatsDisplayBase::CStatsDisplayBase;
+
+private:
+	void Update(SWeatherInfoIn const& data) override;
+};
+
+class CStatsDisplayOut : public CStatsDisplayBase<StatsDataOut, SWeatherInfoOut>
+{
+public:
+	using CStatsDisplayBase::CStatsDisplayBase;
+
+private:
+	void Update(SWeatherInfoOut const& data) override;
+	void UpdateStats(CWindStats& st, const SWindInfo& val);
 };
 
 template <typename T>
@@ -104,6 +134,15 @@ protected:
 		m_pressure = pressure;
 		MeasurementsChanged();
 	}
+	virtual T GetChangedData() const override
+	{
+		T info;
+		info.id = GetId();
+		info.temperature = GetTemperature();
+		info.humidity = GetHumidity();
+		info.pressure = GetPressure();
+		return info;
+	}
 	std::string GetId() const { return m_id; }
 private:
 	const std::string m_id;
@@ -115,21 +154,14 @@ private:
 class CWeatherDataIn : public CWeatherDataBase<SWeatherInfoIn>
 {
 public:
-//	CWeatherDataIn(const std::string& id = std::string())
-//		: CWeatherDataBase(id)
-//	{}
-
+	using CWeatherDataBase::CWeatherDataBase;
 	using CWeatherDataBase::SetMeasurements;
-protected:
-	SWeatherInfoIn GetChangedData()const override;
 };
 
 class CWeatherDataOut : public CWeatherDataBase<SWeatherInfoOut>
 {
 public:
-//	CWeatherDataOut(const std::string& id = std::string())
-//		: CWeatherDataBase(id)
-//	{}
+	using CWeatherDataBase::CWeatherDataBase;
 
 	SWindInfo GetWind()const
 	{
