@@ -14,18 +14,25 @@ public:
 	virtual ~IObserver() = default;
 };
 
+template <typename T>
+class IObservableValue
+{
+public:
+	virtual ~IObservableValue() = default;
+	virtual void RegisterObserver(IObserver<T> & observer, int priority = 0) = 0;
+	virtual void RemoveObserver(IObserver<T> & observer) = 0;
+};
+
 /*
 Шаблонный интерфейс IObservable. Позволяет подписаться и отписаться на оповещения, а также
 инициировать рассылку уведомлений зарегистрированным наблюдателям.
 */
 template <typename T>
-class IObservable
+class IObservable : public IObservableValue<T>
 {
 public:
 	virtual ~IObservable() = default;
-	virtual void RegisterObserver(IObserver<T> & observer, int priority = 0) = 0;
 	virtual void NotifyObservers() = 0;
-	virtual void RemoveObserver(IObserver<T> & observer) = 0;
 };
 
 // Реализация интерфейса IObservable
@@ -65,4 +72,38 @@ protected:
 
 private:
 	observers_bimap m_observers;
+};
+
+template <typename T>
+class CObservableValue : public CObservable<T>
+{
+public:
+	CObservableValue() = default;
+	CObservableValue(const T& v)
+		: m_data(v)
+	{
+	}
+
+	void operator=(const T& v)
+	{
+		if (m_data != v)
+		{
+			m_data = v;
+			NotifyObservers();
+		}
+	}
+
+	operator T() const
+	{
+		return m_data;
+	}
+
+protected:
+	T GetChangedData()const override
+	{
+		return m_data;
+	}
+
+private:
+	T m_data;
 };

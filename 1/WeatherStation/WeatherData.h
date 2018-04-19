@@ -110,13 +110,27 @@ public:
 	{
 		return m_temperature;
 	}
+	IObservableValue<double>& GetObservableTemperature()
+	{
+		return m_temperature;
+	}
+
 	// Относительная влажность (0...100)
 	double GetHumidity()const
 	{
 		return m_humidity;
 	}
+	IObservableValue<double>& GetObservableHumidity()
+	{
+		return m_humidity;
+	}
+
 	// Атмосферное давление (в мм.рт.ст)
 	double GetPressure()const
+	{
+		return m_pressure;
+	}
+	IObservableValue<double>& GetObservablePressure()
 	{
 		return m_pressure;
 	}
@@ -146,9 +160,9 @@ protected:
 	std::string GetId() const { return m_id; }
 private:
 	const std::string m_id;
-	double m_temperature = 0.0;
-	double m_humidity = 0.0;
-	double m_pressure = 760.0;
+	CObservableValue<double> m_temperature = 0.0;
+	CObservableValue<double> m_humidity = 0.0;
+	CObservableValue<double> m_pressure = 760.0;
 };
 
 class CWeatherDataIn : public CWeatherDataBase<SWeatherInfoIn>
@@ -167,10 +181,14 @@ public:
 	{
 		return m_wind;
 	}
+	IObservableValue<SWindInfo>& GetObservableWind()
+	{
+		return m_wind;
+	}
 
 	void SetMeasurements(double temp, double humidity, double pressure, double windDirection, double windSpeed);
 protected:
 	SWeatherInfoOut GetChangedData()const override;
 private:
-	SWindInfo m_wind;
+	CObservableValue<SWindInfo> m_wind;
 };
