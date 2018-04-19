@@ -75,12 +75,23 @@ private:
 };
 
 template <typename T>
-class CObservableValue : public CObservable<T>
+struct SValueWithId
+{
+	std::string id;
+	T value;
+};
+
+template <typename T>
+class CObservableValue : public CObservable<SValueWithId<T>>
 {
 public:
-	CObservableValue() = default;
-	CObservableValue(const T& v)
+	CObservableValue(const std::string& id)
+		: m_id(id)
+	{
+	}
+	CObservableValue(const std::string& id, const T& v)
 		: m_data(v)
+		, m_id(id)
 	{
 	}
 
@@ -99,11 +110,12 @@ public:
 	}
 
 protected:
-	T GetChangedData()const override
+	SValueWithId<T> GetChangedData()const override
 	{
-		return m_data;
+		return{ m_id, m_data };
 	}
 
 private:
+	std::string m_id;
 	T m_data;
 };

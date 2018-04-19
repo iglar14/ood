@@ -48,8 +48,7 @@ void CDisplay::Update(SWeatherInfoOut const& data)
 
 void CWeatherDataOut::SetMeasurements(double temp, double humidity, double pressure, double windDirection, double windSpeed)
 {
-	m_wind.direction = windDirection;
-	m_wind.speed = windSpeed;
+	m_wind = { windDirection, windSpeed };
 
 	CWeatherDataBase::SetMeasurements(temp, humidity, pressure);
 }

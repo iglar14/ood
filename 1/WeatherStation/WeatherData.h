@@ -6,12 +6,26 @@ using namespace std;
 
 struct SWindInfo
 {
+	SWindInfo() = default;
+	SWindInfo(double speed, double direction)
+		: speed(speed)
+		, direction(direction)
+	{
+	}
+	bool operator==(const SWindInfo& other)
+	{
+		return tie(speed, direction) == tie(other.speed, other.direction);
+	}
+	bool operator!=(const SWindInfo& other)
+	{
+		return !(*this == other);
+	}
 	double speed = 0;
 	double direction = 0;	// Degrees
 };
 struct SWeatherInfo
 {
-	std::string id;
+	string id;
 	double temperature = 0;
 	double humidity = 0;
 	double pressure = 0;
@@ -37,6 +51,26 @@ private:
 	void Update(SWeatherInfoOut const& data) override;
 };
 
+template <typename T>
+class CSingleValueDisplay : public IObserver<SValueWithId<T>>
+{
+public:
+	CSingleValueDisplay(const string& name)
+		: m_name(name)
+	{
+	}
+	void Update(const SValueWithId<T>& val) override
+	{
+		if (!val.id.empty())
+		{
+			cout << "Sensor " << val.id << ": ";
+		}
+		cout << m_name << " " << val.value << endl;
+	}
+private:
+	string m_name;
+};
+
 struct StatsData
 {
 	CStats temperature, humidity, pressure;
@@ -60,7 +94,7 @@ public:
 	}
 
 protected:
-	typedef std::map<std::string, Data> StatsMap;	// Statistics from different devices
+	typedef map<string, Data> StatsMap;	// Statistics from different devices
 
 	void UpdateStats(StatsData& stats, const SWeatherInfo& data)
 	{
@@ -68,7 +102,7 @@ protected:
 		UpdateStats(stats.humidity, data.humidity, "Hum");
 		UpdateStats(stats.pressure, data.pressure, "Pres");
 	}
-	void UpdateStats(CStats& st, double val, const std::string& name)
+	void UpdateStats(CStats& st, double val, const string& name)
 	{
 		st += val;
 		m_printer->Print(name, st);
@@ -101,16 +135,21 @@ template <typename T>
 class CWeatherDataBase : public CObservable<T>
 {
 public:
-	CWeatherDataBase(const std::string& id = std::string())
+	CWeatherDataBase(const string& id = string())
 		: m_id(id)
+		, m_temperature(id)
+		, m_humidity(id)
+		, m_pressure(id)
 	{}
+
+	typedef IObservableValue<SValueWithId<double>> ValueObserver;
 
 	// Температура в градусах Цельсия
 	double GetTemperature()const
 	{
 		return m_temperature;
 	}
-	IObservableValue<double>& GetObservableTemperature()
+	ValueObserver& GetObservableTemperature()
 	{
 		return m_temperature;
 	}
@@ -120,7 +159,7 @@ public:
 	{
 		return m_humidity;
 	}
-	IObservableValue<double>& GetObservableHumidity()
+	ValueObserver& GetObservableHumidity()
 	{
 		return m_humidity;
 	}
@@ -130,7 +169,7 @@ public:
 	{
 		return m_pressure;
 	}
-	IObservableValue<double>& GetObservablePressure()
+	ValueObserver& GetObservablePressure()
 	{
 		return m_pressure;
 	}
@@ -157,9 +196,9 @@ protected:
 		info.pressure = GetPressure();
 		return info;
 	}
-	std::string GetId() const { return m_id; }
+	string GetId() const { return m_id; }
 private:
-	const std::string m_id;
+	const string m_id;
 	CObservableValue<double> m_temperature = 0.0;
 	CObservableValue<double> m_humidity = 0.0;
 	CObservableValue<double> m_pressure = 760.0;
@@ -175,13 +214,17 @@ public:
 class CWeatherDataOut : public CWeatherDataBase<SWeatherInfoOut>
 {
 public:
-	using CWeatherDataBase::CWeatherDataBase;
+	CWeatherDataOut(const string& id = string())
+		: CWeatherDataBase<SWeatherInfoOut>(id)
+		, m_wind(id)
+	{
+	}
 
 	SWindInfo GetWind()const
 	{
 		return m_wind;
 	}
-	IObservableValue<SWindInfo>& GetObservableWind()
+	IObservableValue<SValueWithId<SWindInfo>>& GetObservableWind()
 	{
 		return m_wind;
 	}
