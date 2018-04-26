@@ -18,5 +18,25 @@
     <ClCompile Include="SimUDuck.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Ducks.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FlyBehavior.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QuackBehavior.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DanceBehavior.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ducks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CountBehavior.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

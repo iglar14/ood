@@ -146,7 +146,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Ducks.cpp" />
     <ClCompile Include="SimUDuck.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CountBehavior.h" />
+    <ClInclude Include="DanceBehavior.h" />
+    <ClInclude Include="Ducks.h" />
+    <ClInclude Include="FlyBehavior.h" />
+    <ClInclude Include="QuackBehavior.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
