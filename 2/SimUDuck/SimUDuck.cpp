@@ -39,7 +39,7 @@ void main()
 
 	ModelDuck modelDuck;
 	PlayWithDuck(modelDuck);
-	modelDuck.SetFlyBehavior(make_unique<FlyWithWings>());
+	modelDuck.SetFlyBehavior(FlyWithWings());
 	PlayWithDuck(modelDuck);
 	modelDuck.Fly();
 }

@@ -1,31 +1,7 @@
 #pragma once
-struct IQuackBehavior
-{
-	virtual ~IQuackBehavior() {};
-	virtual void Quack() = 0;
-};
+#include <functional>
 
-typedef std::unique_ptr<IQuackBehavior> IQuackBehaviorPtr;
+typedef std::function<void()> QuackBehavior;
 
-class QuackBehavior : public IQuackBehavior
-{
-public:
-	void Quack() override
-	{
-		std::cout << "Quack Quack!!!" << std::endl;
-	}
-};
-class SqueakBehavior : public IQuackBehavior
-{
-public:
-	void Quack() override
-	{
-		std::cout << "Squeek!!!" << std::endl;
-	}
-};
-
-class MuteQuackBehavior : public IQuackBehavior
-{
-public:
-	void Quack() override {}
-};
+void QuackQuack();
+void QuackSqueak();

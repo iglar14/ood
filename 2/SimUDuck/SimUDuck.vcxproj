@@ -146,7 +146,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DanceBehavior.cpp" />
     <ClCompile Include="Ducks.cpp" />
+    <ClCompile Include="QuackBehavior.cpp" />
     <ClCompile Include="SimUDuck.cpp" />
   </ItemGroup>
   <ItemGroup>

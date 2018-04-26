@@ -1,18 +1,13 @@
 #pragma once
+#include <functional>
 #include "CountBehavior.h"
 
-struct IFlyBehavior
-{
-	virtual ~IFlyBehavior() {};
-	virtual void Fly() = 0;
-};
+typedef std::function<void()> FlyBehavior;
 
-typedef std::unique_ptr<IFlyBehavior> IFlyBehaviorPtr;
-
-class FlyWithWings : public IFlyBehavior
+class FlyWithWings
 {
 public:
-	void Fly() override
+	void operator()()
 	{
 		std::cout << "I'm flying with wings!! Number: ";
 		m_countBehavior.Count();
@@ -20,10 +15,4 @@ public:
 	}
 private:
 	CountBehavior m_countBehavior;
-};
-
-class FlyNoWay : public IFlyBehavior
-{
-public:
-	void Fly() override {}
 };

@@ -6,23 +6,23 @@
 class Duck
 {
 public:
-	Duck(IFlyBehaviorPtr&& flyBehavior,
-		IQuackBehaviorPtr&& quackBehavior,
-		IDanceBehaviorPtr&& danceBehavior = nullptr);
+	Duck(FlyBehavior&& flyBehavior,
+		QuackBehavior&& quackBehavior,
+		DanceBehavior&& danceBehavior = nullptr);
 	void Quack() const;
 	void Swim();
 	void Fly();
 	void Dance();
-	void SetFlyBehavior(IFlyBehaviorPtr&& flyBehavior);
-	void SetDanceBehavior(IDanceBehaviorPtr&& danceBehavior);
+	void SetFlyBehavior(FlyBehavior&& flyBehavior);
+	void SetDanceBehavior(DanceBehavior&& danceBehavior);
 
 	virtual void Display() const = 0;
 	virtual ~Duck() = default;
 
 private:
-	IFlyBehaviorPtr m_flyBehavior;
-	IQuackBehaviorPtr m_quackBehavior;
-	IDanceBehaviorPtr m_danceBehavior;
+	FlyBehavior m_flyBehavior;
+	QuackBehavior m_quackBehavior;
+	DanceBehavior m_danceBehavior;
 };
 
 class MallardDuck : public Duck

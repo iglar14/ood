@@ -1,14 +1,15 @@
 #include <cassert>
 #include <iostream>
 #include <memory>
-// #include <vector>
 #include "Ducks.h"
 
 using namespace std;
 
-Duck::Duck(IFlyBehaviorPtr&& flyBehavior,
-		IQuackBehaviorPtr&& quackBehavior,
-		IDanceBehaviorPtr&& danceBehavior)
+void DoNothing() {}
+
+Duck::Duck(FlyBehavior&& flyBehavior,
+		QuackBehavior&& quackBehavior,
+		DanceBehavior&& danceBehavior)
 		: m_quackBehavior(move(quackBehavior))
 		, m_danceBehavior(move(danceBehavior))
 {
@@ -18,36 +19,36 @@ Duck::Duck(IFlyBehaviorPtr&& flyBehavior,
 
 void Duck::Quack() const
 {
-	m_quackBehavior->Quack();
+	m_quackBehavior();
 }
 void Duck::Swim()
 {
-		cout << "I'm swimming" << endl;
+	cout << "I'm swimming" << endl;
 }
 void Duck::Fly()
 {
-	m_flyBehavior->Fly();
+	m_flyBehavior();
 }
 void Duck::Dance()
 {
 	if (m_danceBehavior)
 	{
-		m_danceBehavior->Dance();
+		m_danceBehavior();
 	}
 }
-void Duck::SetFlyBehavior(IFlyBehaviorPtr&& flyBehavior)
+void Duck::SetFlyBehavior(FlyBehavior&& flyBehavior)
 {
 	assert(flyBehavior);
 	m_flyBehavior = move(flyBehavior);
 }
 
-void Duck::SetDanceBehavior(IDanceBehaviorPtr&& danceBehavior)
+void Duck::SetDanceBehavior(DanceBehavior&& danceBehavior)
 {
 	m_danceBehavior = move(danceBehavior);
 }
 
 MallardDuck::MallardDuck()
-	: Duck(make_unique<FlyWithWings>(), make_unique<QuackBehavior>(), make_unique<WaltzDance>())
+	: Duck(FlyWithWings(), &QuackQuack, &WaltzDance)
 {
 }
 
@@ -57,7 +58,7 @@ void MallardDuck::Display() const
 }
 
 RedheadDuck::RedheadDuck()
-	: Duck(make_unique<FlyWithWings>(), make_unique<QuackBehavior>(), make_unique<MinuetDance>())
+	: Duck(FlyWithWings(), &QuackQuack, &MinuetDance)
 {
 }
 void RedheadDuck::Display() const
@@ -66,7 +67,7 @@ void RedheadDuck::Display() const
 }
 
 DeckoyDuck::DeckoyDuck()
-	: Duck(make_unique<FlyNoWay>(), make_unique<MuteQuackBehavior>(), make_unique<NoDance>())
+	: Duck(&DoNothing, &DoNothing, &DoNothing)
 {
 }
 void DeckoyDuck::Display() const
@@ -75,7 +76,7 @@ void DeckoyDuck::Display() const
 }
 
 RubberDuck::RubberDuck()
-	: Duck(make_unique<FlyNoWay>(), make_unique<SqueakBehavior>())
+	: Duck(&DoNothing, &QuackSqueak)
 {
 }
 
@@ -85,7 +86,7 @@ void RubberDuck::Display() const
 }
 
 ModelDuck::ModelDuck()
-	: Duck(make_unique<FlyNoWay>(), make_unique<QuackBehavior>())
+	: Duck(&DoNothing, &QuackQuack)
 {
 }
 
