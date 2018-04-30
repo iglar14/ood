@@ -175,7 +175,8 @@ int main()
 		// добавляем пару кубиков льда
 		auto iceCubes = make_unique<CIceCubes>(move(lemon), 2, IceCubeType::Dry);
 		// добавляем 2 грамма шоколадной крошки
-		auto beverage = make_unique<CChocolateCrumbs>(move(iceCubes), 2);
+		IBeveragePtr beverage = make_unique<CChocolateCrumbs>(move(iceCubes), 2);
+		beverage = make_unique<CCream>(move(beverage));
 
 		// Выписываем счет покупателю
 		cout << beverage->GetDescription() << " costs " << beverage->GetCost() << endl;
@@ -233,22 +234,24 @@ int main()
 	// Аналог предыдущего решения с добавкой синтаксического сахара
 	// обеспечиваемого операторами << и функцией MakeCondiment
 	{
-		auto beverage = 
+		auto beverage =
 			make_unique<CLatte>(CoffeePortion::Double)		// Наливаем чашечку латте,
 			<< MakeCondiment<CCinnamon>()					// оборачиваем корицей,
 			<< MakeCondiment<CLemon>(2)						// добавляем пару долек лимона
 			<< MakeCondiment<CIceCubes>(2, IceCubeType::Dry)// брасаем пару кубиков сухого льда
-			<< MakeCondiment<CChocolateCrumbs>(2);			// посыпаем шоколадной крошкой
+			<< MakeCondiment<CChocolateCrumbs>(2)			// посыпаем шоколадной крошкой
+			<< MakeCondiment<CChocolate>(8);
 
 		// Выписываем счет покупателю
 		cout << beverage->GetDescription() << " costs " << beverage->GetCost() << endl;
 	}
 
 	{
-		auto beverage = 
+		auto beverage =
 			make_unique<CMilkshake>(MilkshakePortion::Big)	// Наливаем молочный коктейль
 			<< MakeCondiment<CSyrup>(SyrupType::Maple)	// заливаем кленовым сиропом
-			<< MakeCondiment<CCoconutFlakes>(8);		// посыпаем кокосовой стружкой
+			<< MakeCondiment<CCoconutFlakes>(8)			// посыпаем кокосовой стружкой
+			<< MakeCondiment<CLiquor>(LiquorType::Nut);
 
 		// Выписываем счет покупателю
 		cout << beverage->GetDescription() << " costs " << beverage->GetCost() << endl;
