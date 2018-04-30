@@ -35,8 +35,5 @@
     <ClInclude Include="Ducks.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CountBehavior.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

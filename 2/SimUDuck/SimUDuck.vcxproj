@@ -150,7 +150,6 @@
     <ClCompile Include="SimUDuck.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CountBehavior.h" />
     <ClInclude Include="DanceBehavior.h" />
     <ClInclude Include="Ducks.h" />
     <ClInclude Include="FlyBehavior.h" />

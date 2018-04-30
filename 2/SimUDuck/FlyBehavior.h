@@ -1,5 +1,4 @@
 #pragma once
-#include "CountBehavior.h"
 
 struct IFlyBehavior
 {
@@ -14,12 +13,10 @@ class FlyWithWings : public IFlyBehavior
 public:
 	void Fly() override
 	{
-		std::cout << "I'm flying with wings!! Number: ";
-		m_countBehavior.Count();
-		std::cout << std::endl;
+		std::cout << "I'm flying with wings!! Number: " << (++m_counter) << std::endl;
 	}
 private:
-	CountBehavior m_countBehavior;
+	unsigned int m_counter = 0;
 };
 
 class FlyNoWay : public IFlyBehavior
