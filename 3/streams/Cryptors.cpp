@@ -1,13 +1,15 @@
 #include "stdafx.h"
 #include "Cryptors.h"
 
-uint8_t encrypt(uint8_t val, std::mt19937& cryptEngine)
+using namespace std;
+
+uint8_t Encrypt(uint8_t val, mt19937& cryptEngine)
 {
 	uint8_t key = cryptEngine() >> 24;
 	return val + key;
 }
 
-uint8_t decrypt(uint8_t val, std::mt19937& cryptEngine)
+uint8_t Decrypt(uint8_t val, mt19937& cryptEngine)
 {
 	uint8_t key = cryptEngine() >> 24;
 	return val - key;
@@ -21,12 +23,15 @@ CEncryptor::CEncryptor(IOutputDataStream& stream, KeyType key)
 
 void CEncryptor::WriteByte(uint8_t data)
 {
-	m_stream.WriteByte(encrypt(data, m_cryptEngine));
+	m_stream.WriteByte(Encrypt(data, m_cryptEngine));
 }
 
-void CEncryptor::WriteBlock(const void* srcData, std::streamsize size)
+void CEncryptor::WriteBlock(const void* srcData, streamsize size)
 {
-	m_stream.WriteBlock(srcData, size);
+	for (streamsize i = 0; i < size; ++i)
+	{
+		WriteByte(static_cast<const uint8_t*>(srcData)[i]);
+	}
 }
 
 CDecryptor::CDecryptor(IInputDataStream& stream, KeyType key)
@@ -42,10 +47,16 @@ bool CDecryptor::IsEOF()const
 
 uint8_t CDecryptor::ReadByte()
 {
-	return decrypt(m_stream.ReadByte(), m_cryptEngine);
+	return Decrypt(m_stream.ReadByte(), m_cryptEngine);
 }
 
-std::streamsize CDecryptor::ReadBlock(void* dstBuffer, std::streamsize size)
+streamsize CDecryptor::ReadBlock(void* dstBuffer, streamsize size)
 {
-	return m_stream.ReadBlock(dstBuffer, size);
+	const streamsize readBytes = m_stream.ReadBlock(dstBuffer, size);
+	uint8_t* dstUint = static_cast<uint8_t*>(dstBuffer);
+	for (streamsize i = 0; i < readBytes; ++i)
+	{
+		dstUint[i] = Decrypt(dstUint[i], m_cryptEngine);
+	}
+	return readBytes;
 }

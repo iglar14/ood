@@ -4,10 +4,12 @@
 #include "../streams/MemoryStreams.h"
 
 static const char* STRING_TO_COMPARE = "test\n1234\n\0\0\0\0";
+static const size_t STRING_SIZE = 10;
+static const size_t BUFFER_SIZE = 16;
 
 static void ReadAndCheckTestSequence(IInputDataStream& stream)
 {
-	std::vector<uint8_t> v2(/*v1.size()*/16);
+	std::vector<uint8_t> v2(BUFFER_SIZE);
 	BOOST_CHECK_EQUAL(v2[0] = stream.ReadByte(), STRING_TO_COMPARE[0]);
 	BOOST_CHECK_EQUAL(v2[1] = stream.ReadByte(), STRING_TO_COMPARE[1]);
 	BOOST_CHECK_EQUAL(v2[2] = stream.ReadByte(), STRING_TO_COMPARE[2]);
@@ -18,15 +20,15 @@ static void ReadAndCheckTestSequence(IInputDataStream& stream)
 	BOOST_CHECK_EQUAL_COLLECTIONS(v2.begin(), v2.begin() + 8, STRING_TO_COMPARE, STRING_TO_COMPARE + 8);
 
 	BOOST_CHECK_EQUAL(stream.ReadBlock(&v2[8], 4), 2);
-	BOOST_CHECK_EQUAL_COLLECTIONS(v2.begin(), v2.end(), STRING_TO_COMPARE, STRING_TO_COMPARE + 16);
+	BOOST_CHECK_EQUAL_COLLECTIONS(v2.begin(), v2.end(), STRING_TO_COMPARE, STRING_TO_COMPARE + BUFFER_SIZE);
 
 	BOOST_CHECK(stream.IsEOF());
 
 	BOOST_CHECK_EQUAL(stream.ReadBlock(&v2[1], 4), 0);
-	BOOST_CHECK_EQUAL_COLLECTIONS(v2.begin(), v2.end(), STRING_TO_COMPARE, STRING_TO_COMPARE + 16);
+	BOOST_CHECK_EQUAL_COLLECTIONS(v2.begin(), v2.end(), STRING_TO_COMPARE, STRING_TO_COMPARE + BUFFER_SIZE);
 
 	BOOST_CHECK_EQUAL(stream.ReadBlock(&v2[0], 4), 0);
-	BOOST_CHECK_EQUAL_COLLECTIONS(v2.begin(), v2.end(), STRING_TO_COMPARE, STRING_TO_COMPARE + 16);
+	BOOST_CHECK_EQUAL_COLLECTIONS(v2.begin(), v2.end(), STRING_TO_COMPARE, STRING_TO_COMPARE + BUFFER_SIZE);
 
 	BOOST_CHECK_THROW(stream.ReadByte(), std::ios_base::failure);
 }
@@ -46,7 +48,7 @@ BOOST_AUTO_TEST_SUITE(CFileInputStream_tests)
 
 BOOST_AUTO_TEST_CASE(CFileInputStream_opens_and_reads_existing_file)
 {
-	std::vector<uint8_t> v1(16);
+	std::vector<uint8_t> v1(BUFFER_SIZE);
 	CFileInputStream fs("testExisting.txt");
 	ReadAndCheckTestSequence(fs);
 }
@@ -62,10 +64,10 @@ BOOST_AUTO_TEST_CASE(CFileOutputStream_opens_and_writes_to_file)
 		CFileOutputStream fs("testNew.txt");
 		WriteTestSequence(fs);
 	}
-	std::vector<uint8_t> v1(16);
+	std::vector<uint8_t> v1(BUFFER_SIZE);
 	CFileInputStream fs("testNew.txt");
-	BOOST_CHECK_EQUAL(fs.ReadBlock(&v1[0], 16), 10);
-	BOOST_CHECK_EQUAL_COLLECTIONS(v1.begin(), v1.end(), STRING_TO_COMPARE, STRING_TO_COMPARE + 16);
+	BOOST_CHECK_EQUAL(fs.ReadBlock(&v1[0], BUFFER_SIZE), STRING_SIZE);
+	BOOST_CHECK_EQUAL_COLLECTIONS(v1.begin(), v1.end(), STRING_TO_COMPARE, STRING_TO_COMPARE + BUFFER_SIZE);
 }
 
 BOOST_AUTO_TEST_CASE(CFileOutputStream_throws_when_file_creation_fails)
@@ -75,7 +77,7 @@ BOOST_AUTO_TEST_CASE(CFileOutputStream_throws_when_file_creation_fails)
 
 BOOST_AUTO_TEST_CASE(CMemoryInputStream_reads_data_from_memory_vector)
 {
-	const std::vector<uint8_t> v1(STRING_TO_COMPARE, STRING_TO_COMPARE + 10);
+	const std::vector<uint8_t> v1(STRING_TO_COMPARE, STRING_TO_COMPARE + STRING_SIZE);
 	CMemoryInputStream ms(v1);
 
 	ReadAndCheckTestSequence(ms);
@@ -89,8 +91,8 @@ BOOST_AUTO_TEST_CASE(CMemoryOutputStream_writes_to_vector)
 		WriteTestSequence(ms);
 		vec = ms.GetData();
 	}
-	BOOST_REQUIRE_EQUAL(vec.size(), 10u);
-	BOOST_CHECK_EQUAL_COLLECTIONS(vec.begin(), vec.end(), STRING_TO_COMPARE, STRING_TO_COMPARE + 10);
+	BOOST_REQUIRE_EQUAL(vec.size(), STRING_SIZE);
+	BOOST_CHECK_EQUAL_COLLECTIONS(vec.begin(), vec.end(), STRING_TO_COMPARE, STRING_TO_COMPARE + STRING_SIZE);
 }
 
 BOOST_AUTO_TEST_CASE(decrypt_after_encrypt_makes_original_sequence)
@@ -104,4 +106,28 @@ BOOST_AUTO_TEST_CASE(decrypt_after_encrypt_makes_original_sequence)
 	CDecryptor decr(readIntermediateData, 1488);
 	ReadAndCheckTestSequence(decr);
 }
+
+BOOST_AUTO_TEST_CASE(cant_decrypt_sequence_with_different_key)
+{
+	CMemoryOutputStream intremediateStorage;
+	CEncryptor encr(intremediateStorage, 14);
+	WriteTestSequence(encr);
+
+	auto encryptedData = intremediateStorage.GetData();
+	CMemoryInputStream readIntermediateData(encryptedData);
+	CDecryptor decr(readIntermediateData, 88);
+
+	std::vector<uint8_t> decryptedResult(BUFFER_SIZE);
+	BOOST_CHECK_EQUAL(decr.ReadBlock(&decryptedResult[0], decryptedResult.size()), STRING_SIZE);
+	size_t differences = 0;
+	for (size_t i = 0; i < decryptedResult.size(); ++i)
+	{
+		if (decryptedResult[i] != STRING_TO_COMPARE[i])
+		{
+			++differences;
+		}
+	}
+	BOOST_CHECK(differences > STRING_SIZE / 2);
+}
+
 BOOST_AUTO_TEST_SUITE_END()
