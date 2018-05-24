@@ -60,12 +60,17 @@ BOOST_AUTO_TEST_CASE(CFileInputStream_throws_when_file_is_missing)
 
 BOOST_AUTO_TEST_CASE(CFileOutputStream_opens_and_writes_to_file)
 {
+	auto filePath = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path();
+	BOOST_SCOPE_EXIT(&filePath) {
+		boost::filesystem::remove(filePath);
+	} BOOST_SCOPE_EXIT_END
+
 	{
-		CFileOutputStream fs("testNew.txt");
+		CFileOutputStream fs(filePath.c_str());
 		WriteTestSequence(fs);
 	}
 	std::vector<uint8_t> v1(BUFFER_SIZE);
-	CFileInputStream fs("testNew.txt");
+	CFileInputStream fs(filePath.c_str());
 	BOOST_CHECK_EQUAL(fs.ReadBlock(&v1[0], BUFFER_SIZE), STRING_SIZE);
 	BOOST_CHECK_EQUAL_COLLECTIONS(v1.begin(), v1.end(), STRING_TO_COMPARE, STRING_TO_COMPARE + BUFFER_SIZE);
 }

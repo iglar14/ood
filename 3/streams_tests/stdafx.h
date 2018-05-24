@@ -8,4 +8,5 @@
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/scope_exit.hpp>
 #include <random>
