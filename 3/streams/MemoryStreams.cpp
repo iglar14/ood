@@ -9,12 +9,26 @@ CMemoryOutputStream::CMemoryOutputStream()
 
 void CMemoryOutputStream::WriteByte(uint8_t data)
 {
-	m_storage.push_back(data);
+	try
+	{
+		m_storage.push_back(data);
+	}
+	catch (bad_alloc& e)
+	{
+		throw ios_base::failure(e.what());
+	}
 }
 void CMemoryOutputStream::WriteBlock(const void* srcData, std::streamsize size)
 {
-	const uint8_t* uint8Data = static_cast<const uint8_t*>(srcData);
-	m_storage.insert(m_storage.end(), uint8Data, uint8Data + size);
+	try
+	{
+		const uint8_t* uint8Data = static_cast<const uint8_t*>(srcData);
+		m_storage.insert(m_storage.end(), uint8Data, uint8Data + size);
+	}
+	catch (bad_alloc& e)
+	{
+		throw ios_base::failure(e.what());
+	}
 }
 
 CMemoryInputStream::CMemoryInputStream(const std::vector<uint8_t>& storage)

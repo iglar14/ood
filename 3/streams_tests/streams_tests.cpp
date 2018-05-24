@@ -130,4 +130,31 @@ BOOST_AUTO_TEST_CASE(cant_decrypt_sequence_with_different_key)
 	BOOST_CHECK(differences > STRING_SIZE / 2);
 }
 
+BOOST_AUTO_TEST_CASE(file_stream_detects_eof_correctly)
+{
+	std::vector<uint8_t> v1(BUFFER_SIZE);
+	CFileInputStream fs("testExisting.txt");
+	BOOST_CHECK_EQUAL(fs.ReadBlock(&v1[0], STRING_SIZE), STRING_SIZE);
+
+	BOOST_CHECK(fs.IsEOF());
+}
+
+BOOST_AUTO_TEST_CASE(memory_stream_detects_eof_correctly)
+{
+	std::vector<uint8_t> buf(STRING_SIZE);
+	std::vector<uint8_t> v1(STRING_SIZE);
+	CMemoryInputStream ms(buf);
+	BOOST_CHECK(!ms.IsEOF());
+	BOOST_CHECK_EQUAL(ms.ReadBlock(&v1[0], STRING_SIZE), STRING_SIZE);
+
+	BOOST_CHECK(ms.IsEOF());
+}
+
+BOOST_AUTO_TEST_CASE(empty_memory_stream_is_eof)
+{
+	std::vector<uint8_t> buf;
+	CMemoryInputStream ms(buf);
+	BOOST_CHECK(ms.IsEOF());
+}
+
 BOOST_AUTO_TEST_SUITE_END()

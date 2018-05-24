@@ -41,6 +41,7 @@ CFileInputStream::CFileInputStream(const boost::filesystem::path& path)
 }
 bool CFileInputStream::IsEOF()const
 {
+	m_stream.peek();
 	return m_stream.eof();
 }
 
