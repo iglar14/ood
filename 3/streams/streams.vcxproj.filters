@@ -30,6 +30,9 @@
     <ClCompile Include="Cryptors.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Compressors.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IStreams.h">
@@ -46,6 +49,9 @@
     </ClInclude>
     <ClInclude Include="Cryptors.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Compressors.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Compressors.cpp" />
     <ClCompile Include="FileStreams.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MemoryStreams.cpp" />
@@ -158,6 +159,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Compressors.h" />
     <ClInclude Include="Cryptors.h" />
     <ClInclude Include="FileStreams.h" />
     <ClInclude Include="IStreams.h" />
