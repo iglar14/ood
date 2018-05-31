@@ -155,9 +155,11 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\streams\Compressors.cpp" />
     <ClCompile Include="..\streams\Cryptors.cpp" />
     <ClCompile Include="..\streams\FileStreams.cpp" />
     <ClCompile Include="..\streams\MemoryStreams.cpp" />
+    <ClCompile Include="compress_tests.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

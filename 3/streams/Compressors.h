@@ -1,23 +1,24 @@
 #pragma once
 #include "IStreams.h"
 
-class CRleCompress final : public IOutputDataStream
+class CRleCompressStream final : public IOutputDataStream
 {
 public:
-	CRleCompress(IOutputDataStream& stream);
-	~CRleCompress() override;
+	CRleCompressStream(IOutputDataStream& stream);
+	~CRleCompressStream() override;
 
 	void WriteByte(uint8_t data) override;
 	void WriteBlock(const void * srcData, std::streamsize size) override;
+	void Flush();
 private:
 	IOutputDataStream& m_stream;
 };
 
-class CRleDecompress final : public IInputDataStream
+class CRleDecompressStream final : public IInputDataStream
 {
 public:
-	CRleDecompress(IInputDataStream& stream);
-	~CRleDecompress() override;
+	CRleDecompressStream(IInputDataStream& stream);
+	~CRleDecompressStream() override;
 
 	bool IsEOF()const override;
 	uint8_t ReadByte() override;

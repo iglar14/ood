@@ -3,43 +3,48 @@
 
 using namespace std;
 
-CRleCompress::CRleCompress(IOutputDataStream& stream)
+CRleCompressStream::CRleCompressStream(IOutputDataStream& stream)
 	: m_stream(stream)
 {
 
 }
 
-CRleCompress::~CRleCompress()
+CRleCompressStream::~CRleCompressStream()
 {
 
 }
 
-void CRleCompress::WriteByte(uint8_t data)
+void CRleCompressStream::WriteByte(uint8_t data)
 {
 
 }
-void CRleCompress::WriteBlock(const void * srcData, std::streamsize size)
+void CRleCompressStream::WriteBlock(const void * srcData, std::streamsize size)
 {
 
 }
 
-CRleDecompress::CRleDecompress(IInputDataStream& stream)
+void CRleCompressStream::Flush()
+{
+
+}
+
+CRleDecompressStream::CRleDecompressStream(IInputDataStream& stream)
 	: m_stream(stream)
 {
 
 }
 
-CRleDecompress::~CRleDecompress()
+CRleDecompressStream::~CRleDecompressStream()
 {
 
 }
 
-bool CRleDecompress::IsEOF()const
+bool CRleDecompressStream::IsEOF()const
 {
 	return (m_counter == 0) && m_stream.IsEOF();
 }
 
-uint8_t CRleDecompress::ReadByte()
+uint8_t CRleDecompressStream::ReadByte()
 {
 	if (m_counter < 0)
 	{
@@ -63,7 +68,7 @@ uint8_t CRleDecompress::ReadByte()
 	}
 }
 
-std::streamsize CRleDecompress::ReadBlock(void * dstBuffer, std::streamsize size)
+std::streamsize CRleDecompressStream::ReadBlock(void * dstBuffer, std::streamsize size)
 {
-
+	return 0;
 }
