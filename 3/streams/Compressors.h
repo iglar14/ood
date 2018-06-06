@@ -11,7 +11,13 @@ public:
 	void WriteBlock(const void * srcData, std::streamsize size) override;
 	void Flush();
 private:
+	void WriteSequence(size_t size);
+	void WriteRepeat();
+
 	IOutputDataStream& m_stream;
+
+	size_t m_repeatCounter = 0;
+	std::basic_string<uint8_t> m_sequence;
 };
 
 class CRleDecompressStream final : public IInputDataStream
