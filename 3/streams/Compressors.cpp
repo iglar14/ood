@@ -20,50 +20,55 @@ void CRleCompressStream::WriteByte(uint8_t data)
 	if (nChars == 0)
 	{
 		assert(m_repeatCounter == 0);
-		m_sequence.push_back(data);
+		m_sequence = { data };
 		m_repeatCounter = 1;
 	}
-	else
+	else if (nChars == 1)
 	{
-		if (nChars == 1)
+		if (data == m_sequence[0])
 		{
-			if (data == m_sequence[0])
+			assert(m_repeatCounter > 0);
+			if (m_repeatCounter == 0)
 			{
-				assert(m_repeatCounter > 0);
-				if (m_repeatCounter == 0)
-				{
-					m_repeatCounter = 2;
-				}
-				else
-				{
-					++m_repeatCounter;
-				}
+				m_repeatCounter = 2;
 			}
 			else
 			{
-				if (m_repeatCounter < 2)
-				{
-					m_sequence.push_back(data);
-				}
-				else
+				++m_repeatCounter;
+				if (m_repeatCounter == static_cast<size_t>(std::numeric_limits<int8_t>::max()))	// repeat counter oveflow (> 4G)
 				{
 					WriteRepeat();
-					m_sequence = { data };
-					m_repeatCounter = 1;
 				}
 			}
 		}
-		else //if (nChars > 1)
+		else
 		{
-			if (data == m_sequence[nChars - 1])
-			{
-				WriteSequence(nChars - 1);
-				++m_repeatCounter;
-			}
-			else
+			if (m_repeatCounter < 2)
 			{
 				m_sequence.push_back(data);
 			}
+			else
+			{
+				WriteRepeat();
+				m_sequence = { data };
+				m_repeatCounter = 1;
+			}
+		}
+	}
+	else //if (nChars > 1)
+	{
+		if (data == m_sequence[nChars - 1])
+		{
+			WriteSequence(nChars - 1);
+			++m_repeatCounter;
+		}
+		else
+		{
+			if (nChars == static_cast<size_t>(std::numeric_limits<int8_t>::max()) + 1)
+			{
+				WriteSequence(nChars);
+			}
+			m_sequence.push_back(data);
 		}
 	}
 }
@@ -92,6 +97,7 @@ void CRleCompressStream::WriteSequence(size_t size)
 {
 	assert(size <= m_sequence.size());
 	assert(size > 0);
+	assert(m_sequence.size() <= static_cast<size_t>(std::numeric_limits<int8_t>::max()) + 1);
 
 	m_stream.WriteByte(-static_cast<char>(size));
 	m_stream.WriteBlock(&m_sequence[0], size);
@@ -103,9 +109,10 @@ void CRleCompressStream::WriteSequence(size_t size)
 void CRleCompressStream::WriteRepeat()
 {
 	assert(m_repeatCounter > 0);
+	assert(m_repeatCounter <= static_cast<size_t>(std::numeric_limits<int8_t>::max()));
 	assert(m_sequence.size() == 1);
 
-	m_stream.WriteByte(m_repeatCounter);
+	m_stream.WriteByte(static_cast<uint8_t>(m_repeatCounter));
 	m_stream.WriteByte(m_sequence[0]);
 	m_sequence.clear();
 	m_repeatCounter = 0;
@@ -156,7 +163,6 @@ uint8_t CRleDecompressStream::ReadByte()
 
 streamsize CRleDecompressStream::ReadBlock(void * dstBuffer, streamsize size)
 {
-//	const streamsize readBytes = m_stream.ReadBlock(dstBuffer, size);
 	uint8_t* dstUint = static_cast<uint8_t*>(dstBuffer);
 	streamsize i = 0;
 	for (i = 0; (i < size) && !IsEOF(); ++i)
