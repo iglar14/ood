@@ -7,7 +7,7 @@ public:
 	CFileOutputStream(const boost::filesystem::path& path);
 	void WriteByte(uint8_t data) override;
 	void WriteBlock(const void * srcData, std::streamsize size) override;
-
+	void Flush() override {};
 private:
 	std::basic_ofstream<uint8_t> m_stream;
 };

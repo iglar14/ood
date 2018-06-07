@@ -7,6 +7,7 @@ public:
 	CMemoryOutputStream();
 	void WriteByte(uint8_t data) override;
 	void WriteBlock(const void * srcData, std::streamsize size) override;
+	void Flush() override {};
 
 	std::vector<uint8_t> GetData() const { return m_storage; }
 
