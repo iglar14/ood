@@ -6,12 +6,6 @@ using namespace std;
 CRleCompressStream::CRleCompressStream(IOutputDataStream& stream)
 	: m_stream(stream)
 {
-
-}
-
-CRleCompressStream::~CRleCompressStream()
-{
-
 }
 
 void CRleCompressStream::WriteByte(uint8_t data)
@@ -121,12 +115,6 @@ void CRleCompressStream::WriteRepeat()
 CRleDecompressStream::CRleDecompressStream(IInputDataStream& stream)
 	: m_stream(stream)
 {
-
-}
-
-CRleDecompressStream::~CRleDecompressStream()
-{
-
 }
 
 bool CRleDecompressStream::IsEOF()const

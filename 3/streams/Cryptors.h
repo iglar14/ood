@@ -9,6 +9,7 @@ public:
 
 	void WriteByte(uint8_t data) override;
 	void WriteBlock(const void * srcData, std::streamsize size) override;
+	void Flush() override;
 private:
 	IOutputDataStream& m_stream;
 	std::mt19937 m_cryptEngine;

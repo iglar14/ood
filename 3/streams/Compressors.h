@@ -5,11 +5,10 @@ class CRleCompressStream final : public IOutputDataStream
 {
 public:
 	CRleCompressStream(IOutputDataStream& stream);
-	~CRleCompressStream() override;
 
 	void WriteByte(uint8_t data) override;
 	void WriteBlock(const void * srcData, std::streamsize size) override;
-	void Flush();
+	void Flush() override;
 private:
 	void WriteSequence(size_t size);
 	void WriteRepeat();
@@ -24,7 +23,6 @@ class CRleDecompressStream final : public IInputDataStream
 {
 public:
 	CRleDecompressStream(IInputDataStream& stream);
-	~CRleDecompressStream() override;
 
 	bool IsEOF()const override;
 	uint8_t ReadByte() override;

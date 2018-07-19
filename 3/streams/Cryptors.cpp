@@ -34,6 +34,11 @@ void CEncryptor::WriteBlock(const void* srcData, streamsize size)
 	}
 }
 
+void CEncryptor::Flush()
+{
+	m_stream.Flush();
+}
+
 CDecryptor::CDecryptor(IInputDataStream& stream, KeyType key)
 	: m_stream(stream)
 	, m_cryptEngine(key)

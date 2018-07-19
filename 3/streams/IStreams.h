@@ -12,6 +12,8 @@ public:
 	// В случае ошибки выбрасывает исключение std::ios_base::failure
 	virtual void WriteBlock(const void * srcData, std::streamsize size) = 0;
 
+	virtual void Flush() = 0;
+
 	virtual ~IOutputDataStream() = default;
 };
 
@@ -33,3 +35,6 @@ public:
 
 	virtual ~IInputDataStream() = default;
 };
+
+using IOutputDataStreamUniquePtr = std::unique_ptr<IOutputDataStream>;
+using IInputDataStreamUniquePtr = std::unique_ptr<IInputDataStream>;

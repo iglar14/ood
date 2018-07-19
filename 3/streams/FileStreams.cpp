@@ -14,7 +14,7 @@ static ios_base::failure CreateError(const char* msg)
 CFileOutputStream::CFileOutputStream(const boost::filesystem::path& path)
 {
 	m_stream.exceptions(std::ofstream::badbit);
-	m_stream.open(path.c_str());
+	m_stream.open(path.c_str(), ios_base::out | ios_base::binary);
 	if (m_stream.fail())
 	{
 		throw CreateError(MSG_FAILED_TO_OPEN);
@@ -33,7 +33,7 @@ void CFileOutputStream::WriteBlock(const void* srcData, std::streamsize size)
 CFileInputStream::CFileInputStream(const boost::filesystem::path& path)
 {
 	m_stream.exceptions(std::ofstream::badbit);
-	m_stream.open(path.c_str());
+	m_stream.open(path.c_str(), ios_base::in | ios_base::binary);
 	if (m_stream.fail())
 	{
 		throw CreateError(MSG_FAILED_TO_OPEN);
