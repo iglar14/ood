@@ -170,6 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DesignerTests.cpp" />
+    <ClCompile Include="FactoryTests.cpp" />
     <ClCompile Include="libpainter-tests.cpp" />
     <ClCompile Include="PictureDraftTests.cpp" />
     <ClCompile Include="ShapeTests.cpp" />

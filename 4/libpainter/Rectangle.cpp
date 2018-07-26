@@ -12,7 +12,7 @@ CRectangle::CRectangle(Color color, const PointI& leftTop, const PointI& rightBo
 
 void CRectangle::Draw(ICanvas& canvas)
 {
-	CShape::Draw(canvas);
+	SelectColor(canvas);
 
 	const PointF leftTop = MakePointF(m_leftTop);
 	const PointF rightBottom = MakePointF(m_rightBottom);

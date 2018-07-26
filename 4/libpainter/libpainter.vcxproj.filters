@@ -72,6 +72,9 @@
     <ClInclude Include="ICanvas.h">
       <Filter>Source Files\Canvas</Filter>
     </ClInclude>
+    <ClInclude Include="SvgCanvas.h">
+      <Filter>Source Files\Canvas</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -100,6 +103,9 @@
     </ClCompile>
     <ClCompile Include="RegularPolygon.cpp">
       <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="SvgCanvas.cpp">
+      <Filter>Source Files\Canvas</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

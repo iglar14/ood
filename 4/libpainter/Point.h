@@ -13,7 +13,7 @@ struct PointT
 using PointI = PointT<int>;
 using PointF = PointT<float>;
 
-PointF MakePointF(const PointI& p)
+inline PointF MakePointF(const PointI& p)
 {
 	return{ static_cast<float>(p.x), static_cast<float>(p.y) };
 }

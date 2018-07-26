@@ -11,7 +11,7 @@ CShape::~CShape()
 {
 }
 
-void CShape::Draw(ICanvas& canvas)
+void CShape::SelectColor(ICanvas& canvas)
 {
 	canvas.SetPenColor(m_color);
 }

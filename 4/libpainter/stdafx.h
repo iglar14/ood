@@ -9,7 +9,12 @@
 
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 
+#include <algorithm>
+#include <iterator>
 #include <string>
 #include <tuple>
+#include <vector>
 
-// TODO: reference additional headers your program requires here
+#include <boost/lexical_cast.hpp>
+#define BOOST_REGEX_NON_RECURSIVE
+#include <boost\regex.hpp>

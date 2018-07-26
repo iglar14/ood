@@ -9,7 +9,7 @@ CTriangle::CTriangle(Color color, const PointI& v1, const PointI& v2, const Poin
 
 void CTriangle::Draw(ICanvas& canvas)
 {
-	CShape::Draw(canvas);
+	SelectColor(canvas);
 
 	const PointF v0 = MakePointF(m_vertices[0]);
 	const PointF v1 = MakePointF(m_vertices[1]);
