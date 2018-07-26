@@ -75,6 +75,15 @@
     <ClInclude Include="SvgCanvas.h">
       <Filter>Source Files\Canvas</Filter>
     </ClInclude>
+    <ClInclude Include="IPainter.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IDesigner.h">
+      <Filter>Source Files\Designer</Filter>
+    </ClInclude>
+    <ClInclude Include="Painter.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -106,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="SvgCanvas.cpp">
       <Filter>Source Files\Canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="Painter.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

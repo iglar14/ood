@@ -4,7 +4,8 @@
 CSvgCanvas::CSvgCanvas(std::ostream& out)
 	: m_out(out)
 {
-	out << "<svg>\n";
+	out << "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n"
+		"<svg xmlns=\"http://www.w3.org/2000/svg\">\n";
 }
 
 CSvgCanvas::~CSvgCanvas()
@@ -41,7 +42,7 @@ void CSvgCanvas::PrintStyle()
 {
 	m_out << "style=\"stroke:";
 	m_out << ConvertColorToStr(m_penColor);
-	m_out << ";stroke-width:1\"";
+	m_out << ";stroke-width:1;fill:none\"";
 }
 
 std::string CSvgCanvas::ConvertColorToStr(Color c)

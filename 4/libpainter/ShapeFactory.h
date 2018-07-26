@@ -13,6 +13,9 @@ public:
 private:
 	Color CreateColor(const std::string& colorStr) const;
 
+// 	CShapeUniquePtr TryCreateRectangle(const std::string & description);
+// 	CShapeUniquePtr TryCreateTriangle(const std::string & description);
+// 	CShapeUniquePtr TryCreateEllipse(const std::string & description);
+// 	CShapeUniquePtr TryCreatePolygon(const std::string & description);
 
-	std::map<std::string, Color> m_colorMap;
 };

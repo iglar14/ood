@@ -78,6 +78,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -92,6 +93,7 @@
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -108,6 +110,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -126,6 +129,7 @@
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -141,8 +145,11 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="Designer.h" />
     <ClInclude Include="Ellipse.h" />
+    <ClInclude Include="IDesigner.h" />
     <ClInclude Include="ICanvas.h" />
+    <ClInclude Include="IPainter.h" />
     <ClInclude Include="IShapeFactory.h" />
+    <ClInclude Include="Painter.h" />
     <ClInclude Include="PictureDraft.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Rectangle.h" />
@@ -157,6 +164,7 @@
   <ItemGroup>
     <ClCompile Include="Designer.cpp" />
     <ClCompile Include="Ellipse.cpp" />
+    <ClCompile Include="Painter.cpp" />
     <ClCompile Include="PictureDraft.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="RegularPolygon.cpp" />

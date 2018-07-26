@@ -9,7 +9,7 @@ public:
 		: CShape(Color::Red)
 	{}
 
-	void Draw(ICanvas&) override {}
+	void Draw(ICanvas&) const override {}
 };
 
 using namespace std;
@@ -50,6 +50,7 @@ BOOST_FIXTURE_TEST_SUITE(Picture_draft, Picture_draft_)
 		BOOST_AUTO_TEST_CASE(becomes_not_empty)
 		{
 			BOOST_CHECK(!draft.IsEmpty());
+			BOOST_CHECK_EQUAL(draft.GetShapeCount(), 3);
 		}
 		BOOST_AUTO_TEST_CASE(has_different_begin_and_end_iterators)
 		{
@@ -65,5 +66,11 @@ BOOST_FIXTURE_TEST_SUITE(Picture_draft, Picture_draft_)
 			BOOST_CHECK_EQUAL(addressof(*(it++)), addressof(refShape3));
 			BOOST_REQUIRE(it == draft.end());
 		}
-	BOOST_AUTO_TEST_SUITE_END()
+		BOOST_AUTO_TEST_CASE(GetShape_returns_shape)
+		{
+			BOOST_CHECK_EQUAL(addressof(draft.GetShape(0)), addressof(refShape1));
+			BOOST_CHECK_EQUAL(addressof(draft.GetShape(1)), addressof(refShape2));
+			BOOST_CHECK_EQUAL(addressof(draft.GetShape(2)), addressof(refShape3));
+		}
+		BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE_END()

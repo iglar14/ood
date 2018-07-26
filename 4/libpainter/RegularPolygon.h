@@ -9,12 +9,12 @@ public:
 	{
 	public:
 		InvalidVertexCount()
-			: std::exception("vertex count must be >= 3")
+			: std::exception("polygon vertex count must be >= 3")
 		{}
 	};
 
 	CRegularPolygon(Color color, const PointI& center, int radius, unsigned int vertexCount);
-	void Draw(ICanvas& canvas) override;
+	void Draw(ICanvas& canvas) const override;
 
 	PointI GetCenter() const { return m_center; }
 	int GetRadius() const { return m_radius; }

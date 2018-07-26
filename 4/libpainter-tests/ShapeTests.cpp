@@ -13,7 +13,7 @@ class MockShape : public CShape
 public:
 	using CShape::CShape;
 
-	void Draw(ICanvas&) override {}
+	void Draw(ICanvas&) const override {}
 };
 
 BOOST_AUTO_TEST_CASE(Shape_has_color)

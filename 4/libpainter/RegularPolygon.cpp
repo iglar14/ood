@@ -16,7 +16,7 @@ CRegularPolygon::CRegularPolygon(Color color, const PointI& center, int radius, 
 	}
 }
 
-void CRegularPolygon::Draw(ICanvas& canvas)
+void CRegularPolygon::Draw(ICanvas& canvas) const
 {
 	SelectColor(canvas);
 

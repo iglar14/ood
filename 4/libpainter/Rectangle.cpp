@@ -10,7 +10,7 @@ CRectangle::CRectangle(Color color, const PointI& leftTop, const PointI& rightBo
 
 };
 
-void CRectangle::Draw(ICanvas& canvas)
+void CRectangle::Draw(ICanvas& canvas) const
 {
 	SelectColor(canvas);
 

@@ -9,14 +9,14 @@ public:
 	CShape(Color color);
 	virtual ~CShape();
 
-	virtual void Draw(ICanvas& canvas) = 0;
+	virtual void Draw(ICanvas& canvas) const = 0;
 
 	virtual Color GetColor() final
 	{
 		return m_color;
 	}
 protected:
-	void SelectColor(ICanvas& canvas);
+	void SelectColor(ICanvas& canvas) const;
 private:
 	Color m_color;
 };

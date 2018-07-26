@@ -7,7 +7,7 @@ CTriangle::CTriangle(Color color, const PointI& v1, const PointI& v2, const Poin
 	, m_vertices{v1, v2, v3}
 {}
 
-void CTriangle::Draw(ICanvas& canvas)
+void CTriangle::Draw(ICanvas& canvas) const
 {
 	SelectColor(canvas);
 

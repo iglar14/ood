@@ -24,6 +24,8 @@ public:
 	ConstIterator end()const;
 
 	void AddShape(std::unique_ptr<CShape> && shape);
+	size_t GetShapeCount() const { return m_shapes.size(); }
+	const CShape& GetShape(size_t index) const { return *m_shapes[index]; }
 
 	CPictureDraft(CPictureDraft &&) = default;
 	CPictureDraft& operator=(CPictureDraft &&) = default;

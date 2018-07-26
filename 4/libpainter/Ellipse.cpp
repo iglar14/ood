@@ -10,7 +10,7 @@ CEllipse::CEllipse(Color color, const PointI& center, int hRadius, int vRadius)
 {
 }
 
-void CEllipse::Draw(ICanvas& canvas)
+void CEllipse::Draw(ICanvas& canvas) const
 {
 	SelectColor(canvas);
 	canvas.DrawEllipse(MakePointF(m_center), static_cast<float>(m_horizontalRadius), static_cast<float>(m_verticalRadius));

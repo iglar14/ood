@@ -16,7 +16,7 @@ public:
 	{
 	}
 
-	void Draw(ICanvas&) override {}
+	void Draw(ICanvas&) const override {}
 
 	string descr;
 };
