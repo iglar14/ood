@@ -8,6 +8,12 @@ public:
 	CHistory();
 	~CHistory();
 
+	CHistory(const CHistory&) = delete;
+	CHistory(CHistory&&) = default;
+
+	CHistory& operator=(const CHistory&) = delete;
+	CHistory& operator=(CHistory&&) = default;
+
 	bool CanUndo()const;	
 	void Undo();
 	bool CanRedo()const;

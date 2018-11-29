@@ -20,6 +20,9 @@
 #include <deque>
 #include <cassert>
 #include <boost/scope_exit.hpp>
-
+#include <boost/algorithm/string/trim_all.hpp>
+#include <boost/core/noncopyable.hpp>
+#include <boost\optional.hpp>
+#include <boost\none.hpp>
 
 // TODO: reference additional headers your program requires here

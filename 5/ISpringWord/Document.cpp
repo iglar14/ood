@@ -14,6 +14,11 @@ std::string CDocument::GetTitle() const
 	return m_title;
 }
 
+std::shared_ptr<IParagraph> CDocument::InsertParagraph(const std::string& text, boost::optional<size_t> position)
+{
+	return nullptr;
+}
+
 bool CDocument::CanUndo() const
 {
 	return m_history.CanUndo();
