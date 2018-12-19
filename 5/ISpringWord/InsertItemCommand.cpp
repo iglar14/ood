@@ -1,12 +1,16 @@
 #include "stdafx.h"
 #include "InsertItemCommand.h"
+#include "WordException.h"
 
 CInsertItemCommand::CInsertItemCommand(const CDocumentItem& item, std::vector<CDocumentItem>& vec, boost::optional<size_t> position)
 	: m_position(position)
 	, m_vec(vec)
 	, m_item(item)
 {
-	
+	if (m_position && (*m_position > m_vec.size()))
+	{
+		throw CWordException("invalid item position");
+	}
 }
 
 void CInsertItemCommand::DoExecute()
@@ -31,5 +35,4 @@ void CInsertItemCommand::DoUnexecute()
 	{
 		m_vec.pop_back();
 	}
-//	m_newValue.swap(m_target);
 }

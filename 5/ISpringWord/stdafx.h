@@ -24,5 +24,6 @@
 #include <boost/core/noncopyable.hpp>
 #include <boost\optional.hpp>
 #include <boost\none.hpp>
+#include <boost\filesystem.hpp>
 
 // TODO: reference additional headers your program requires here

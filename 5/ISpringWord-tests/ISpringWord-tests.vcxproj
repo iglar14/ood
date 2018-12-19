@@ -142,14 +142,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\ISpringWord\AbstractCommand.h" />
     <ClInclude Include="..\ISpringWord\ChangeStringCommand.h" />
     <ClInclude Include="..\ISpringWord\Document.h" />
     <ClInclude Include="..\ISpringWord\History.h" />
     <ClInclude Include="..\ISpringWord\ICommand.h" />
+    <ClInclude Include="..\ISpringWord\Image.h" />
+    <ClInclude Include="..\ISpringWord\InsertItemCommand.h" />
+    <ClInclude Include="..\ISpringWord\Paragraph.h" />
+    <ClInclude Include="MockStorage.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -157,8 +158,14 @@
     <ClCompile Include="..\ISpringWord\AbstractCommand.cpp" />
     <ClCompile Include="..\ISpringWord\ChangeStringCommand.cpp" />
     <ClCompile Include="..\ISpringWord\ConstDocumentItem.cpp" />
+    <ClCompile Include="..\ISpringWord\DeleteItemCommand.cpp" />
     <ClCompile Include="..\ISpringWord\Document.cpp" />
     <ClCompile Include="..\ISpringWord\History.cpp" />
+    <ClCompile Include="..\ISpringWord\Image.cpp" />
+    <ClCompile Include="..\ISpringWord\InsertItemCommand.cpp" />
+    <ClCompile Include="..\ISpringWord\Paragraph.cpp" />
+    <ClCompile Include="..\ISpringWord\ReplaceTextCommand.cpp" />
+    <ClCompile Include="..\ISpringWord\ResizeImageCommand.cpp" />
     <ClCompile Include="Document-tests.cpp" />
     <ClCompile Include="ISpringWord-tests.cpp" />
     <ClCompile Include="stdafx.cpp">

@@ -4,6 +4,8 @@
 class CDocumentItem : public CConstDocumentItem
 {
 public:
+	using CConstDocumentItem::CConstDocumentItem;
+
 	// Возвращает указатель на изображение, либо nullptr, если элемент не является изображением
 	using CConstDocumentItem::GetImage;
 	// Возвращает указатель на параграф, либо nullptr, если элемент не является параграфом
