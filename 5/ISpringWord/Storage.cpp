@@ -1,31 +1,9 @@
 #include "stdafx.h"
 #include "Storage.h"
+#include "WorkCopy.h"
 #include <boost/lexical_cast.hpp>
 
 namespace fs = boost::filesystem;
-
-class CWorkCopy : public IWorkCopy
-{
-public:
-	CWorkCopy(const fs::path& src, const fs::path& dest)
-		: m_path(dest)
-	{
-		fs::copy_file(src, dest);
-	}
-
-	~CWorkCopy() override
-	{
-		fs::remove(m_path);
-	}
-
-	std::string GetPath() const override
-	{
-		return m_path.string();
-	}
-
-private:
-	fs::path m_path;
-};
 
 CStorage::CStorage()
 {
@@ -39,9 +17,8 @@ CStorage::~CStorage()
 	fs::remove_all(m_tempDir, ec);
 }
 
-std::unique_ptr<IWorkCopy> CStorage::AddFile(const std::string& path)
+std::unique_ptr<IWorkCopy> CStorage::AddFile(const fs::path& fspath)
 {
-	fs::path fspath(path);
 	fs::path dest = GetNextFileName(fspath.extension());
 	return std::make_unique<CWorkCopy>(fspath, dest);
 }

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Editor.h"
+#include "HtmlExporter.h"
 #include "IDocument.h"
 #include "WordException.h"
 #include <boost/lexical_cast.hpp>
@@ -61,6 +62,7 @@ CEditor::CEditor(const DocumentFactory& docFac)  //-V730
 	AddMenuItem("ReplaceText", "Replaces text in paragraph. Args <pos> <text...>", &CEditor::ReplaceText);
 	AddMenuItem("ResizeImage", "Changes image size. Args <pos> <width> <height>", &CEditor::ResizeImage);
 	AddMenuItem("DeleteItem", "Deletes item. Args <pos>", &CEditor::DeleteItem);
+	AddMenuItem("Save", "Save to html. Args <path>", &CEditor::Save);
 	AddMenuItem("list", "Show document", &CEditor::List);
 	AddMenuItem("undo", "Undo command", &CEditor::Undo);
 	AddMenuItem("redo", "Redo undone command", &CEditor::Redo);
@@ -138,6 +140,13 @@ void CEditor::DeleteItem(std::istream & in)
 	size_t pos = 0;
 	in >> pos;
 	m_document->DeleteItem(pos);
+}
+
+void CEditor::Save(std::istream& in)
+{
+	const string path = ReadText(in);
+	CHtmlExporter exporter;
+	exporter.Export(*m_document, path);
 }
 
 void CEditor::List(istream &)

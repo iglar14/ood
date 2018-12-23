@@ -6,5 +6,5 @@ class IStorage
 public:
 	virtual ~IStorage() = default;
 
-	virtual std::unique_ptr<IWorkCopy> AddFile(const std::string& path) = 0;
+	virtual std::unique_ptr<IWorkCopy> AddFile(const boost::filesystem::path& path) = 0;
 };

@@ -24,6 +24,7 @@ private:
 	void ReplaceText(std::istream & in);
 	void ResizeImage(std::istream & in);
 	void DeleteItem(std::istream & in);
+	void Save(std::istream& in);
 	void List(std::istream &);
 	void Undo(std::istream &);
 	void Redo(std::istream &);

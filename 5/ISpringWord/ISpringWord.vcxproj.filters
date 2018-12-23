@@ -96,6 +96,15 @@
     <ClInclude Include="ReplaceTextCommand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HtmlExporter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WorkCopy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveStorage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -154,6 +163,15 @@
     </ClCompile>
     <ClCompile Include="ReplaceTextCommand.cpp">
       <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HtmlExporter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveStorage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WorkCopy.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

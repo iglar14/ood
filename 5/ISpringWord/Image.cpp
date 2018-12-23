@@ -9,7 +9,7 @@ CImage::CImage(const WorkCopyFactory& wcFac)
 
 std::string CImage::GetPath()const
 {
-	return m_copy ? m_copy->GetPath() : "";
+	return m_copy ? m_copy->GetPath().string() : "";
 }
 
 void CImage::SetPath(const std::string& path)

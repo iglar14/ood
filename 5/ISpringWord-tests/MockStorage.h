@@ -3,21 +3,21 @@
 
 struct MockWorkCopy : public IWorkCopy
 {
-	MockWorkCopy(const std::string& path)
+	MockWorkCopy(const boost::filesystem::path& path)
 		: m_path(path)
 	{
 	}
-	std::string GetPath() const override
+	boost::filesystem::path GetPath() const override
 	{
 		return m_path;
 	}
 
-	std::string m_path;
+	boost::filesystem::path m_path;
 };
 
 struct MockStorage : public IStorage
 {
-	std::unique_ptr<IWorkCopy> AddFile(const std::string& path) override
+	std::unique_ptr<IWorkCopy> AddFile(const boost::filesystem::path& path) override
 	{
 		return std::make_unique<MockWorkCopy>(path);
 	}

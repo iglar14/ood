@@ -1,0 +1,7 @@
+InsertParagraph end Hellp
+InsertImage end 1024 800 D:\tmp\photo_2017-11-24_01-26-13.jpg
+setTitle "hello world"
+InsertImage end 1024 800 D:\tmp\photo_2018-08-31_17-19-25.jpg
+InsertParagraph end Chip&Dale "text in quotes" 
+InsertParagraph end I'm cool
+Save D:\tmp\out.html
