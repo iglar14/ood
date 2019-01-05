@@ -161,9 +161,6 @@
     <ClCompile Include="ResizeImageCommand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ReplaceTextCommand.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="HtmlExporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -171,6 +168,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WorkCopy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ReplaceTextCommand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
