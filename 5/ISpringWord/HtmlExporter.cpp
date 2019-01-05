@@ -2,6 +2,7 @@
 #include "HtmlExporter.h"
 #include "IDocument.h"
 #include "SaveStorage.h"
+#include "WordException.h"
 #include <boost/algorithm/string/replace.hpp>
 
 namespace fs = boost::filesystem;
@@ -36,12 +37,27 @@ void AddParagraphTag(std::ostream& strm, const std::string& text)
 {
 	strm << "<p>" << Escape(text) << "</p>\n";
 }
+
+std::ofstream Open(const fs::path& path)
+{
+	fs::path filename = path.filename();
+	if (fs::is_directory(path) || filename.empty() || (filename == ".") || (filename == ".."))
+	{
+		throw CWordException("Empty or invalid output file name");
+	}
+	std::ofstream strm;
+	strm.open(path.c_str(), std::ios_base::trunc | std::ios_base::out);
+	if (!strm.is_open())
+	{
+		throw CWordException("Could not open file");
+	}
+	return strm;
+}
 }
 
 void CHtmlExporter::Export(const IDocument& doc, const fs::path& path)
 {
-	std::ofstream strm;
-	strm.open(path.c_str(), std::ios_base::trunc | std::ios_base::out);
+	std::ofstream strm = Open(path);
 	CSaveStorage storage(path);
 	auto baseDir = path.parent_path();
 	if (baseDir.empty())

@@ -71,5 +71,15 @@ BOOST_AUTO_TEST_CASE(escapes_special_characters_in_path)	// тест не актуален, по
 	Export();
 	BOOST_CHECK_EQUAL(m_stream.str(), HTML_START + HTML_BODY_START + "<img src=\"" + ESCAPED_IMAGE_PATH + "\" width=\"1024\" height=\"768\">\n" + HTML_END);
 }
+BOOST_AUTO_TEST_CASE(throws_when_empty_filename)
+{
+	auto exportTo = [&](auto&& p){
+		BOOST_CHECK_THROW(m_exporter.Export(m_document, std::forward<decltype(p)>(p)), CWordException);
+	};
+	for (auto p : { "", ".\\", "..\\", "..", ".", "\\", "c:\\" })
+	{
+		exportTo(p);
+	}
+}
 
 BOOST_AUTO_TEST_SUITE_END()
