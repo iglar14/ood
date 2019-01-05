@@ -4,8 +4,6 @@
 #include "DeleteItemCommand.h"
 #include "InsertItemCommand.h"
 #include "Paragraph.h"
-#include "ReplaceTextCommand.h"
-#include "ResizeImageCommand.h"
 #include "WordException.h"
 #include "Image.h"
 
@@ -28,8 +26,7 @@ std::string CDocument::GetTitle() const
 
 std::shared_ptr<IImmutableParagraph> CDocument::InsertParagraph(const std::string& text, boost::optional<size_t> position)
 {
-	auto paragraph = std::make_shared<CParagraph>();
-	paragraph->SetText(text);
+	auto paragraph = CParagraph::Create(text);
 	CDocumentItem item(paragraph);
 	m_history.AddAndExecuteCommand(std::make_unique<CInsertItemCommand>(item, m_items, position));
 	return paragraph;
@@ -46,13 +43,12 @@ void CDocument::ReplaceText(size_t position, const std::string& text)
 	{
 		throw CWordException("Item is not a paragraph");
 	}
-	m_history.AddAndExecuteCommand(std::make_unique<CReplaceTextCommand>(paragraph, text));
+	m_history.AddAndExecuteCommand(paragraph->SetText(text));
 }
 
 std::shared_ptr<IImmutableImage> CDocument::InsertImage(const std::string& path, int width, int height, boost::optional<size_t> position)
 {
-	auto image = std::make_shared<CImage>(m_storage->AddFile(path));
-	image->Resize(width, height);
+	auto image = CImage::Create(m_storage->AddFile(path), width, height);
 	CDocumentItem item(image);
 	m_history.AddAndExecuteCommand(std::make_unique<CInsertItemCommand>(item, m_items, position));
 	return image;
@@ -69,7 +65,7 @@ void CDocument::ResizeImage(size_t position, int width, int height)
 	{
 		throw CWordException("Item is not an image");
 	}
-	m_history.AddAndExecuteCommand(std::make_unique<CResizeImageCommand>(image, width, height));
+	m_history.AddAndExecuteCommand(image->Resize(width, height));
 }
 
 void CDocument::DeleteItem(size_t index)

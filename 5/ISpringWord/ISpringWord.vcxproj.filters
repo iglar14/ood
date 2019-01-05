@@ -90,12 +90,6 @@
     <ClInclude Include="DeleteItemCommand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ResizeImageCommand.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ReplaceTextCommand.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="HtmlExporter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -103,6 +97,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SaveStorage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FunctionalCommand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -158,9 +155,6 @@
     <ClCompile Include="DeleteItemCommand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ResizeImageCommand.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="HtmlExporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -168,9 +162,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WorkCopy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ReplaceTextCommand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

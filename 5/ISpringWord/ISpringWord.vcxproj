@@ -147,6 +147,7 @@
     <ClInclude Include="DeleteItemCommand.h" />
     <ClInclude Include="Document.h" />
     <ClInclude Include="Editor.h" />
+    <ClInclude Include="FunctionalCommand.h" />
     <ClInclude Include="History.h" />
     <ClInclude Include="DocumentItem.h" />
     <ClInclude Include="HtmlExporter.h" />
@@ -164,8 +165,6 @@
     <ClInclude Include="Paragraph.h" />
     <ClInclude Include="ParagraphImpl.h" />
     <ClInclude Include="ChangeStringCommand.h" />
-    <ClInclude Include="ReplaceTextCommand.h" />
-    <ClInclude Include="ResizeImageCommand.h" />
     <ClInclude Include="SaveStorage.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Storage.h" />
@@ -190,8 +189,6 @@
     <ClCompile Include="Paragraph.cpp" />
     <ClCompile Include="ParagraphImpl.cpp" />
     <ClCompile Include="ChangeStringCommand.cpp" />
-    <ClCompile Include="ReplaceTextCommand.cpp" />
-    <ClCompile Include="ResizeImageCommand.cpp" />
     <ClCompile Include="SaveStorage.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

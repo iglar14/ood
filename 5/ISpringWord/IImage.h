@@ -1,4 +1,5 @@
 #pragma once
+#include "ICommand_fwd.h"
 
 class IImmutableImage
 {
@@ -18,5 +19,5 @@ class IImage : public IImmutableImage
 {
 public:
 	// Изменяет размер изображения
-	virtual void Resize(int width, int height) = 0;
+	virtual ICommandPtr Resize(int width, int height) = 0;
 };

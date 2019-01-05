@@ -1,5 +1,5 @@
 #pragma once
-#include <string>
+#include "ICommand_fwd.h"
 
 class IImmutableParagraph
 {
@@ -11,5 +11,5 @@ public:
 class IParagraph : public IImmutableParagraph
 {
 public:
-	virtual void SetText(const std::string& text) = 0;
+	virtual ICommandPtr SetText(const std::string& text) = 0;
 };

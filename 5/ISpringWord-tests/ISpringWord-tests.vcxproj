@@ -168,8 +168,6 @@
     <ClCompile Include="..\ISpringWord\Image.cpp" />
     <ClCompile Include="..\ISpringWord\InsertItemCommand.cpp" />
     <ClCompile Include="..\ISpringWord\Paragraph.cpp" />
-    <ClCompile Include="..\ISpringWord\ReplaceTextCommand.cpp" />
-    <ClCompile Include="..\ISpringWord\ResizeImageCommand.cpp" />
     <ClCompile Include="..\ISpringWord\SaveStorage.cpp" />
     <ClCompile Include="..\ISpringWord\WorkCopy.cpp" />
     <ClCompile Include="Document-tests.cpp" />

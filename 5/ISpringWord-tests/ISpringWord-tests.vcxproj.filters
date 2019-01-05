@@ -93,12 +93,6 @@
     <ClCompile Include="..\ISpringWord\DeleteItemCommand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ISpringWord\ResizeImageCommand.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ISpringWord\ReplaceTextCommand.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\ISpringWord\HtmlExporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
