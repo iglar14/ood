@@ -111,10 +111,10 @@
     <ClCompile Include="Document-tests.cpp">
       <Filter>tests</Filter>
     </ClCompile>
-    <ClCompile Include="ISpringWord-tests.cpp">
+    <ClCompile Include="HtmlExporter_tests.cpp">
       <Filter>tests</Filter>
     </ClCompile>
-    <ClCompile Include="HtmlExporter_tests.cpp">
+    <ClCompile Include="Common-tests.cpp">
       <Filter>tests</Filter>
     </ClCompile>
   </ItemGroup>

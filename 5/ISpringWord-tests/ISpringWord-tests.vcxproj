@@ -174,7 +174,7 @@
     <ClCompile Include="..\ISpringWord\WorkCopy.cpp" />
     <ClCompile Include="Document-tests.cpp" />
     <ClCompile Include="HtmlExporter_tests.cpp" />
-    <ClCompile Include="ISpringWord-tests.cpp" />
+    <ClCompile Include="Common-tests.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

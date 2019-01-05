@@ -6,7 +6,7 @@
 BOOST_AUTO_TEST_CASE(image_sizes)
 {
 	MockStorage storage;
-	CImage image([&](const auto& path) { return storage.AddFile(path); });
+	CImage image(storage.AddFile(L"image.jpg"));
 	image.Resize(800, 600);
 	BOOST_CHECK_EQUAL(image.GetWidth(), 800);
 	BOOST_CHECK_EQUAL(image.GetHeight(), 600);

@@ -51,8 +51,7 @@ void CDocument::ReplaceText(size_t position, const std::string& text)
 
 std::shared_ptr<IImmutableImage> CDocument::InsertImage(const std::string& path, int width, int height, boost::optional<size_t> position)
 {
-	auto image = std::make_shared<CImage>([&](const boost::filesystem::path& p) { return m_storage->AddFile(p); });
-	image->SetPath(path);
+	auto image = std::make_shared<CImage>(m_storage->AddFile(path));
 	image->Resize(width, height);
 	CDocumentItem item(image);
 	m_history.AddAndExecuteCommand(std::make_unique<CInsertItemCommand>(item, m_items, position));

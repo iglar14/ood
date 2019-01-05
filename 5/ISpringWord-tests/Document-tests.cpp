@@ -8,7 +8,6 @@ using namespace std;
 struct Document_
 {
 	CDocument m_document;
-//	IStorage* m_storage;
 
 	Document_()
 		: m_document(CreateStorage())

@@ -2,19 +2,14 @@
 #include "Image.h"
 #include "WordException.h"
 
-CImage::CImage(const WorkCopyFactory& wcFac)
-	: m_wcFac(wcFac)
+CImage::CImage(std::unique_ptr<IWorkCopy> wc)
+	: m_copy(std::move(wc))
 {
 }
 
 std::string CImage::GetPath()const
 {
 	return m_copy ? m_copy->GetPath().string() : "";
-}
-
-void CImage::SetPath(const std::string& path)
-{
-	m_copy = m_wcFac(path);
 }
 
 void CImage::Resize(int width, int height)
