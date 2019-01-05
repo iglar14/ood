@@ -43,7 +43,12 @@ void CHtmlExporter::Export(const IDocument& doc, const fs::path& path)
 	std::ofstream strm;
 	strm.open(path.c_str(), std::ios_base::trunc | std::ios_base::out);
 	CSaveStorage storage(path);
-	auto pathConverter = [baseDir = path.parent_path()](const fs::path& absPath) {
+	auto baseDir = path.parent_path();
+	if (baseDir.empty())
+	{
+		baseDir = ".";
+	}
+	auto pathConverter = [baseDir](const fs::path& absPath) {
 		return fs::relative(absPath, baseDir);
 	};
 	Export(doc, strm, storage, pathConverter);
