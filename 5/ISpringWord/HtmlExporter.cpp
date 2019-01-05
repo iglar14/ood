@@ -12,9 +12,9 @@ std::string Escape(std::string text)
 {
 	static const std::pair<std::string, std::string> SUBSTITUTES[] =
 	{
+		{ "&", "&amp;" },
 		{ "<", "&lt;" },
 		{ ">", "&gt;" },
-		{ "&", "&amp;" },
 		{ "\"", "&quot;" },
 		{ "\'", "&apos;" },
 	};
@@ -24,15 +24,15 @@ std::string Escape(std::string text)
 	}
 	return text;
 }
-void AddTitleTag(std::ofstream& strm, const std::string& title)
+void AddTitleTag(std::ostream& strm, const std::string& title)
 {
 	strm << "<title>" << Escape(title) << "</title>";
 }
-void AddImageTag(std::ofstream& strm, const fs::path& p, int width, int height)
+void AddImageTag(std::ostream& strm, const fs::path& p, int width, int height)
 {
-	strm << "<p><img src=\"" << Escape(p.string()) << "\" width=\"" << width << "\" height=\"" << height << "\"></p>\n";
+	strm << "<img src=\"" << Escape(p.string()) << "\" width=\"" << width << "\" height=\"" << height << "\">\n";
 }
-void AddParagraphTag(std::ofstream& strm, const std::string& text)
+void AddParagraphTag(std::ostream& strm, const std::string& text)
 {
 	strm << "<p>" << Escape(text) << "</p>\n";
 }
@@ -42,10 +42,15 @@ void CHtmlExporter::Export(const IDocument& doc, const fs::path& path)
 {
 	std::ofstream strm;
 	strm.open(path.c_str(), std::ios_base::trunc | std::ios_base::out);
-
 	CSaveStorage storage(path);
-	fs::path baseDir = path.parent_path();
+	auto pathConverter = [baseDir = path.parent_path()](const fs::path& absPath) {
+		return fs::relative(absPath, baseDir);
+	};
+	Export(doc, strm, storage, pathConverter);
+}
 
+void CHtmlExporter::Export(const IDocument& doc, std::ostream& strm, IStorage& storage, const PathConverter& pathConverter)
+{
 	strm << "<html>\n";
 	strm << "<head>";
 	AddTitleTag(strm, doc.GetTitle());
@@ -58,7 +63,7 @@ void CHtmlExporter::Export(const IDocument& doc, const fs::path& path)
 		if (auto image = item.GetImage())
 		{
 			auto copy = storage.AddFile(image->GetPath());
-			fs::path relPath = fs::relative(copy->GetPath(), baseDir);
+			fs::path relPath = pathConverter(copy->GetPath());
 			AddImageTag(strm, relPath, image->GetWidth(), image->GetHeight());
 		}
 		else if (auto paragraph = item.GetParagraph())

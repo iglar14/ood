@@ -146,10 +146,13 @@
     <ClInclude Include="..\ISpringWord\ChangeStringCommand.h" />
     <ClInclude Include="..\ISpringWord\Document.h" />
     <ClInclude Include="..\ISpringWord\History.h" />
+    <ClInclude Include="..\ISpringWord\HtmlExporter.h" />
     <ClInclude Include="..\ISpringWord\ICommand.h" />
     <ClInclude Include="..\ISpringWord\Image.h" />
     <ClInclude Include="..\ISpringWord\InsertItemCommand.h" />
     <ClInclude Include="..\ISpringWord\Paragraph.h" />
+    <ClInclude Include="..\ISpringWord\SaveStorage.h" />
+    <ClInclude Include="..\ISpringWord\WorkCopy.h" />
     <ClInclude Include="MockStorage.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -161,12 +164,16 @@
     <ClCompile Include="..\ISpringWord\DeleteItemCommand.cpp" />
     <ClCompile Include="..\ISpringWord\Document.cpp" />
     <ClCompile Include="..\ISpringWord\History.cpp" />
+    <ClCompile Include="..\ISpringWord\HtmlExporter.cpp" />
     <ClCompile Include="..\ISpringWord\Image.cpp" />
     <ClCompile Include="..\ISpringWord\InsertItemCommand.cpp" />
     <ClCompile Include="..\ISpringWord\Paragraph.cpp" />
     <ClCompile Include="..\ISpringWord\ReplaceTextCommand.cpp" />
     <ClCompile Include="..\ISpringWord\ResizeImageCommand.cpp" />
+    <ClCompile Include="..\ISpringWord\SaveStorage.cpp" />
+    <ClCompile Include="..\ISpringWord\WorkCopy.cpp" />
     <ClCompile Include="Document-tests.cpp" />
+    <ClCompile Include="HtmlExporter_tests.cpp" />
     <ClCompile Include="ISpringWord-tests.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
