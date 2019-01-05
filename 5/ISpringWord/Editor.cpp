@@ -57,12 +57,12 @@ CEditor::CEditor(const DocumentFactory& docFac)  //-V730
 	m_menu.AddItem("help", "Help", [this](istream&) { m_menu.ShowInstructions(); });
 	m_menu.AddItem("exit", "Exit", [this](istream&) { m_menu.Exit(); });
 	AddMenuItem("setTitle", "Changes title. Args: <new title>", &CEditor::SetTitle);
-	AddMenuItem("InsertParagraph", "Inserts new paragraph. Args: <pos> <text...>", &CEditor::InsertParagraph);
-	AddMenuItem("InsertImage", "Inserts image. Args: <pos> <width> <height> <path>", &CEditor::InsertImage);
-	AddMenuItem("ReplaceText", "Replaces text in paragraph. Args <pos> <text...>", &CEditor::ReplaceText);
-	AddMenuItem("ResizeImage", "Changes image size. Args <pos> <width> <height>", &CEditor::ResizeImage);
-	AddMenuItem("DeleteItem", "Deletes item. Args <pos>", &CEditor::DeleteItem);
-	AddMenuItem("Save", "Save to html. Args <path>", &CEditor::Save);
+	AddMenuItem("insertParagraph", "Inserts new paragraph. Args: <pos> <text...>", &CEditor::InsertParagraph);
+	AddMenuItem("insertImage", "Inserts image. Args: <pos> <width> <height> <path>", &CEditor::InsertImage);
+	AddMenuItem("replaceText", "Replaces text in paragraph. Args <pos> <text...>", &CEditor::ReplaceText);
+	AddMenuItem("resizeImage", "Changes image size. Args <pos> <width> <height>", &CEditor::ResizeImage);
+	AddMenuItem("deleteItem", "Deletes item. Args <pos>", &CEditor::DeleteItem);
+	AddMenuItem("save", "Save to html. Args <path>", &CEditor::Save);
 	AddMenuItem("list", "Show document", &CEditor::List);
 	AddMenuItem("undo", "Undo command", &CEditor::Undo);
 	AddMenuItem("redo", "Redo undone command", &CEditor::Redo);

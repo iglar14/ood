@@ -20,6 +20,7 @@
 #include <deque>
 #include <cassert>
 #include <boost/scope_exit.hpp>
+#include <boost/algorithm/string/case_conv.hpp>
 #include <boost/algorithm/string/trim_all.hpp>
 #include <boost/core/noncopyable.hpp>
 #include <boost\optional.hpp>

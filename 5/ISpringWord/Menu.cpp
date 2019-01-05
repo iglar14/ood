@@ -40,9 +40,10 @@ bool CMenu::ExecuteCommand(const string & command)
 	string name;
 	iss >> name;
 
+	string nameLwr = boost::to_lower_copy(name);
 	m_exit = false;
 	auto it = boost::find_if(m_items, [&](const Item & item) {
-		return item.shortcut == name;
+		return boost::to_lower_copy(item.shortcut) == nameLwr;
 	});
 	if (it != m_items.end())
 	{
