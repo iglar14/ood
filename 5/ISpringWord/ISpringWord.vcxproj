@@ -91,6 +91,7 @@
     <ClInclude Include="ICommand_fwd.h" />
     <ClInclude Include="IDocument.h" />
     <ClInclude Include="ICommand.h" />
+    <ClInclude Include="IHistory.h" />
     <ClInclude Include="IImage.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="ImageImpl.h" />

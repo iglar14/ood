@@ -108,7 +108,13 @@
     <ClCompile Include="HtmlExporter_tests.cpp">
       <Filter>tests</Filter>
     </ClCompile>
-    <ClCompile Include="Common-tests.cpp">
+    <ClCompile Include="Image_tests.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Paragraph_tests.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="History_tests.cpp">
       <Filter>tests</Filter>
     </ClCompile>
   </ItemGroup>

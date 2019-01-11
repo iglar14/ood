@@ -123,7 +123,14 @@ void CEditor::ReplaceText(std::istream & in)
 	size_t pos = 0;
 	in >> pos;
 	const string text = ReadText(in);
-	m_document->ReplaceText(pos, text);
+	if (auto para = m_document->GetItem(pos).GetParagraph())
+	{
+		para->SetText(text);
+	}
+	else
+	{
+		throw CWordException("Item is not a paragraph");
+	}
 }
 
 void CEditor::ResizeImage(std::istream & in)
@@ -132,7 +139,14 @@ void CEditor::ResizeImage(std::istream & in)
 	int width = 0;
 	int height = 0;
 	in >> pos >> width >> height;
-	m_document->ResizeImage(pos, width, height);
+	if (auto image = m_document->GetItem(pos).GetImage())
+	{
+		image->Resize(width, height);
+	}
+	else
+	{
+		throw CWordException("Item is not an image");
+	}
 }
 
 void CEditor::DeleteItem(std::istream & in)

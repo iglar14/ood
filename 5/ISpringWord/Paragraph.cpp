@@ -27,23 +27,18 @@ private:
 	std::string m_text;
 };
 
-std::shared_ptr<CParagraph> CParagraph::Create(const std::string& text)
+CParagraph::CParagraph(IHistory& history, const std::string& text)
+	: m_history(history)
+	, m_text(text)
 {
-	auto para = std::make_shared<CParagraph>();
-	para->SetText(text)->Execute();
-	return para;
-
 }
 
 std::string CParagraph::GetText()const
 {
 	return m_text;
 }
-ICommandPtr CParagraph::SetText(const std::string& text)
+void CParagraph::SetText(const std::string& text)
 {
-	auto para = shared_from_this();
-	return std::make_unique<CReplaceTextCommand>(para, text);
-
-
-	m_text = text;
+	auto thisPara = shared_from_this();
+	m_history.AddAndExecuteCommand(std::make_unique<CReplaceTextCommand>(thisPara, text));
 }

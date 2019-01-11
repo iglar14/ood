@@ -26,46 +26,29 @@ std::string CDocument::GetTitle() const
 
 std::shared_ptr<IImmutableParagraph> CDocument::InsertParagraph(const std::string& text, boost::optional<size_t> position)
 {
-	auto paragraph = CParagraph::Create(text);
+	auto paragraph = std::make_shared<CParagraph>(m_history, text);
 	CDocumentItem item(paragraph);
 	m_history.AddAndExecuteCommand(std::make_unique<CInsertItemCommand>(item, m_items, position));
 	return paragraph;
 }
 
-void CDocument::ReplaceText(size_t position, const std::string& text)
-{
-	if (position >= m_items.size())
-	{
-		throw CWordException("invalid item position");
-	}
-	auto paragraph = m_items[position].GetParagraph();
-	if (!paragraph)
-	{
-		throw CWordException("Item is not a paragraph");
-	}
-	m_history.AddAndExecuteCommand(paragraph->SetText(text));
-}
-
 std::shared_ptr<IImmutableImage> CDocument::InsertImage(const std::string& path, int width, int height, boost::optional<size_t> position)
 {
-	auto image = CImage::Create(m_storage->AddFile(path), width, height);
+	auto image = CImage::Create(m_history, m_storage->AddFile(path), width, height);
 	CDocumentItem item(image);
 	m_history.AddAndExecuteCommand(std::make_unique<CInsertItemCommand>(item, m_items, position));
 	return image;
 }
 
-void CDocument::ResizeImage(size_t position, int width, int height)
+CDocumentItem CDocument::GetItem(size_t index)
 {
-	if (position >= m_items.size())
-	{
-		throw CWordException("invalid item position");
-	}
-	auto image = m_items[position].GetImage();
-	if (!image)
-	{
-		throw CWordException("Item is not an image");
-	}
-	m_history.AddAndExecuteCommand(image->Resize(width, height));
+	VerifyItemIndex(index);
+	return m_items[index];
+}
+CConstDocumentItem CDocument::GetItem(size_t index) const
+{
+	VerifyItemIndex(index);
+	return m_items[index];
 }
 
 void CDocument::DeleteItem(size_t index)
@@ -91,4 +74,12 @@ bool CDocument::CanRedo() const
 void CDocument::Redo()
 {
 	m_history.Redo();
+}
+
+void CDocument::VerifyItemIndex(size_t index) const
+{
+	if (index >= GetItemsCount())
+	{
+		throw CWordException("invalid item position");
+	}
 }

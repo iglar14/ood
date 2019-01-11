@@ -31,15 +31,16 @@ private:
 	int m_width, m_height;
 };
 
-CImage::CImage(std::unique_ptr<IWorkCopy> wc)
+CImage::CImage(IHistory& history, std::unique_ptr<IWorkCopy> wc)
 	: m_copy(std::move(wc))
+	, m_history(history)
 {
 }
 
-std::shared_ptr<CImage> CImage::Create(std::unique_ptr<IWorkCopy> wc, int width, int height)
+std::shared_ptr<CImage> CImage::Create(IHistory& history, std::unique_ptr<IWorkCopy> wc, int width, int height)
 {
-	auto img = std::make_shared<CImage>(std::move(wc));
-	img->Resize(width, height)->Execute();
+	auto img = std::shared_ptr<CImage>(new CImage(history, std::move(wc)));
+	img->ResizeImpl(width, height)->Execute();
 	return img;
 }
 
@@ -48,7 +49,12 @@ std::string CImage::GetPath()const
 	return m_copy ? m_copy->GetPath().string() : "";
 }
 
-ICommandPtr CImage::Resize(int width, int height)
+void CImage::Resize(int width, int height)
+{
+	m_history.AddAndExecuteCommand(ResizeImpl(width, height));
+}
+
+ICommandPtr CImage::ResizeImpl(int width, int height)
 {
 	if ((width <= 0) || (width > 10000) ||
 		(height <= 0) || (height > 10000))

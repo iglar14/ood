@@ -2,6 +2,8 @@
 #include "History.h"
 #include "ICommand.h"
 
+static size_t HISTORY_SIZE = 10;
+
 CHistory::CHistory()
 {
 }
@@ -57,9 +59,6 @@ void CHistory::AddAndExecuteCommand(ICommandPtr && command)
 		try
 		{
 			command->Execute(); // может выбросить исключение
-			// заменяем команду-заглушку
-			m_commands.back() = move(command); // не бросает исключений
-			++m_nextCommandIndex; // теперь можно обновить индекс следующей команды
 		}
 		catch (...)
 		{
@@ -68,6 +67,17 @@ void CHistory::AddAndExecuteCommand(ICommandPtr && command)
 			// перевыбрасываем пойманное исключение вверх (кем бы оно ни было), 
 			// т.к. команду выполнить не смогли
 			throw;
+		}
+
+		// заменяем команду-заглушку
+		m_commands.back() = move(command); // не бросает исключений
+		if (m_nextCommandIndex >= HISTORY_SIZE)
+		{
+			m_commands.pop_front();
+		}
+		else
+		{
+			++m_nextCommandIndex; // теперь можно обновить индекс следующей команды
 		}
 
 		// Альтернативная реализация через boost.scope_exit (не совсем здесь подходит)

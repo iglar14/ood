@@ -108,12 +108,14 @@
     <ClCompile Include="..\ISpringWord\SaveStorage.cpp" />
     <ClCompile Include="..\ISpringWord\WorkCopy.cpp" />
     <ClCompile Include="Document-tests.cpp" />
+    <ClCompile Include="History_tests.cpp" />
     <ClCompile Include="HtmlExporter_tests.cpp" />
-    <ClCompile Include="Common-tests.cpp" />
+    <ClCompile Include="Image_tests.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Paragraph_tests.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

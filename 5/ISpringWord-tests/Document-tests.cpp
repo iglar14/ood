@@ -186,34 +186,5 @@ BOOST_AUTO_TEST_CASE(deletes)
 
 	BOOST_CHECK_THROW(m_document.DeleteItem(4), CWordException);
 }
-BOOST_AUTO_TEST_CASE(resizes_images)
-{
-	m_document.ResizeImage(1, 900, 300);
-	BOOST_CHECK_EQUAL(m_document.GetItem(1).GetImage()->GetPath(), PATH_1);
-	BOOST_CHECK_EQUAL(m_document.GetItem(1).GetImage()->GetWidth(), 900);
-	BOOST_CHECK_EQUAL(m_document.GetItem(1).GetImage()->GetHeight(), 300);
-
-	m_document.Undo();
-	BOOST_CHECK_EQUAL(m_document.GetItem(1).GetImage()->GetWidth(), 800);
-	BOOST_CHECK_EQUAL(m_document.GetItem(1).GetImage()->GetHeight(), 600);
-
-	BOOST_CHECK_THROW(m_document.ResizeImage(0, 800, 500), CWordException);
-	BOOST_CHECK_THROW(m_document.ResizeImage(1, 0, 500), CWordException);
-	BOOST_CHECK_THROW(m_document.ResizeImage(5, 800, 500), CWordException);
-}
-BOOST_AUTO_TEST_CASE(replaces_text)
-{
-	const string NEW_TEXT = "new text";
-	m_document.ReplaceText(0, NEW_TEXT);
-	BOOST_CHECK_EQUAL(m_document.GetItem(0).GetParagraph()->GetText(), NEW_TEXT);
-
-	m_document.Undo();
-	BOOST_CHECK_EQUAL(m_document.GetItem(0).GetParagraph()->GetText(), PARA_1);
-	m_document.Redo();
-	BOOST_CHECK_EQUAL(m_document.GetItem(0).GetParagraph()->GetText(), NEW_TEXT);
-
-	BOOST_CHECK_THROW(m_document.ReplaceText(1, NEW_TEXT), CWordException);
-	BOOST_CHECK_THROW(m_document.ReplaceText(5, NEW_TEXT), CWordException);
-}
 
 BOOST_AUTO_TEST_SUITE_END()
