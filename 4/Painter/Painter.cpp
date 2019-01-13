@@ -9,14 +9,19 @@
 
 using namespace std;
 
+void ClientWork(IDesigner& designer, IPainter& painter)
+{
+	CPictureDraft draft = designer.CreateDraft(cin);
+	CSvgCanvas canvas(cout);
+	painter.DrawPicture(draft, canvas);
+}
+
 int main()
 {
 	ShapeFactory shapeFactory;
 	CDesigner designer(shapeFactory);
-	CPictureDraft draft = designer.CreateDraft(cin);
 	CPainter painter;
-	CSvgCanvas canvas(cout);
-	painter.DrawPicture(draft, canvas);
+	ClientWork(designer, painter);
 	
 	return 0;
 }

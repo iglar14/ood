@@ -11,7 +11,7 @@ class CDesigner : public IDesigner
 public:
 	CDesigner(IShapeFactory & factory);
 	~CDesigner() override;
-	CPictureDraft CreateDraft(std::istream & inputData);
+	CPictureDraft CreateDraft(std::istream & inputData) override;
 private:
 	IShapeFactory & m_factory;
 };
