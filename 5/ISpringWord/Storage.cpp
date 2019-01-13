@@ -3,17 +3,28 @@
 #include "WorkCopy.h"
 #include <boost/lexical_cast.hpp>
 
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
+
+static fs::path GetNextFileName(const fs::path& baseDir, const std::string& prefix, const std::string& ext, size_t& index)
+{
+	fs::path p;
+	do
+	{
+		p = baseDir / (prefix + boost::lexical_cast<std::string>(index++) + ext);
+	} while (fs::exists(p));
+	return p;
+}
 
 CStorage::CStorage()
 {
-	m_tempDir = fs::temp_directory_path() / fs::unique_path("iSpringWord-%%%%");
+	size_t index = 0;
+	m_tempDir = ::GetNextFileName(fs::temp_directory_path(), "iSpringWord-", "", index);
 	fs::create_directories(m_tempDir);
 }
 
 CStorage::~CStorage()
 {
-	boost::system::error_code ec;
+	std::error_code ec;
 	fs::remove_all(m_tempDir, ec);
 }
 
@@ -23,13 +34,7 @@ std::unique_ptr<IWorkCopy> CStorage::AddFile(const fs::path& fspath)
 	return std::make_unique<CWorkCopy>(fspath, dest);
 }
 
-fs::path CStorage::GetNextFileName(const boost::filesystem::path& ext)
+fs::path CStorage::GetNextFileName(const std::filesystem::path& ext)
 {
-	fs::path p;
-	do
-	{
-		p = m_tempDir / boost::lexical_cast<std::string>(m_counter++);
-		p += ext;
-	} while (fs::exists(p));
-	return p;
+	return ::GetNextFileName(m_tempDir, "", ext.string(), m_counter);
 }

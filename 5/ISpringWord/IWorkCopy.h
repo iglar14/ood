@@ -5,5 +5,5 @@ class IWorkCopy
 public:
 	virtual ~IWorkCopy() = default;
 
-	virtual boost::filesystem::path GetPath() const = 0;
+	virtual std::filesystem::path GetPath() const = 0;
 };

@@ -4,12 +4,12 @@
 class CWorkCopy : public IWorkCopy
 {
 public:
-	CWorkCopy(const boost::filesystem::path& src, const boost::filesystem::path& dest, bool keep = false);
+	CWorkCopy(const std::filesystem::path& src, const std::filesystem::path& dest, bool keep = false);
 	~CWorkCopy() override;
 
-	boost::filesystem::path GetPath() const override;
+	std::filesystem::path GetPath() const override;
 
 private:
-	boost::filesystem::path m_path;
+	std::filesystem::path m_path;
 	bool m_keep = false;
 };

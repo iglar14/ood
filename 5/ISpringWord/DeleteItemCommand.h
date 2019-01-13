@@ -13,7 +13,7 @@ protected:
 	void DoUnexecute() override;
 
 private:
-	boost::optional<CDocumentItem> m_item;
+	std::optional<CDocumentItem> m_item;
 	std::vector<CDocumentItem>& m_vec;
 	size_t m_position;
 };

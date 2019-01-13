@@ -2,7 +2,7 @@
 #include "InsertItemCommand.h"
 #include "WordException.h"
 
-CInsertItemCommand::CInsertItemCommand(const CDocumentItem& item, std::vector<CDocumentItem>& vec, boost::optional<size_t> position)
+CInsertItemCommand::CInsertItemCommand(const CDocumentItem& item, std::vector<CDocumentItem>& vec, std::optional<size_t> position)
 	: m_position(position)
 	, m_vec(vec)
 	, m_item(item)

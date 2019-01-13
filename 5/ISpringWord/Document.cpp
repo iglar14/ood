@@ -24,7 +24,7 @@ std::string CDocument::GetTitle() const
 	return m_title;
 }
 
-std::shared_ptr<IImmutableParagraph> CDocument::InsertParagraph(const std::string& text, boost::optional<size_t> position)
+std::shared_ptr<IImmutableParagraph> CDocument::InsertParagraph(const std::string& text, std::optional<size_t> position)
 {
 	auto paragraph = std::make_shared<CParagraph>(m_history, text);
 	CDocumentItem item(paragraph);
@@ -32,7 +32,7 @@ std::shared_ptr<IImmutableParagraph> CDocument::InsertParagraph(const std::strin
 	return paragraph;
 }
 
-std::shared_ptr<IImmutableImage> CDocument::InsertImage(const std::string& path, int width, int height, boost::optional<size_t> position)
+std::shared_ptr<IImmutableImage> CDocument::InsertImage(const std::string& path, int width, int height, std::optional<size_t> position)
 {
 	auto image = CImage::Create(m_history, m_storage->AddFile(path), width, height);
 	CDocumentItem item(image);

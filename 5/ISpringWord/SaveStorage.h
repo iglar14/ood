@@ -4,11 +4,11 @@
 class CSaveStorage : public IStorage
 {
 public:
-	CSaveStorage(const boost::filesystem::path& outFilePath);
+	CSaveStorage(const std::filesystem::path& outFilePath);
 	~CSaveStorage() override;
 
-	std::unique_ptr<IWorkCopy> AddFile(const boost::filesystem::path& path) override;
+	std::unique_ptr<IWorkCopy> AddFile(const std::filesystem::path& path) override;
 
 private:
-	boost::filesystem::path m_dir;
+	std::filesystem::path m_dir;
 };

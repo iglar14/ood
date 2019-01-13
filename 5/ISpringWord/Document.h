@@ -11,10 +11,10 @@ public:
 	void SetTitle(const std::string & title) override;
 	std::string GetTitle() const override;
 
-	std::shared_ptr<IImmutableParagraph> InsertParagraph(const std::string& text, boost::optional<size_t> position = boost::none) override;
+	std::shared_ptr<IImmutableParagraph> InsertParagraph(const std::string& text, std::optional<size_t> position = std::nullopt) override;
 
 	std::shared_ptr<IImmutableImage> InsertImage(const std::string& path, int width, int height,
-		boost::optional<size_t> position = boost::none) override;
+		std::optional<size_t> position = std::nullopt) override;
 
 	size_t GetItemsCount() const override { return m_items.size(); }
 	CDocumentItem GetItem(size_t index) override;

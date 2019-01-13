@@ -9,14 +9,14 @@ class IDocument
 public:
 	// ¬ставл€ет параграф текста в указанную позицию (сдвига€ последующие элементы)
 	// ≈сли параметр position не указан, вставка происходит в конец документа
-	virtual std::shared_ptr<IImmutableParagraph> InsertParagraph(const std::string& text, boost::optional<size_t> position = boost::none) = 0;
+	virtual std::shared_ptr<IImmutableParagraph> InsertParagraph(const std::string& text, std::optional<size_t> position = std::nullopt) = 0;
 
 	//// ¬ставл€ет изображение в указанную позицию (сдвига€ последующие элементы)
 	//// ѕараметр path задает путь к вставл€емому изображению
 	//// ѕри вставке изображение должно копироватьс€ в подкаталог images 
 	//// под автоматически сгенерированным именем
 	virtual std::shared_ptr<IImmutableImage> InsertImage(const std::string& path, int width, int height,
-		boost::optional<size_t> position = boost::none) = 0;
+		std::optional<size_t> position = std::nullopt) = 0;
 
 	// ¬озвращает количество элементов в документе
 	virtual size_t GetItemsCount()const = 0;

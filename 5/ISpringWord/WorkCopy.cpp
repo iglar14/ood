@@ -1,20 +1,20 @@
 #include "stdafx.h"
 #include "WorkCopy.h"
 
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 
 CWorkCopy::CWorkCopy(const fs::path& src, const fs::path& dest, bool keep)
 	: m_path(dest)
 	, m_keep(keep)
 {
-	fs::copy_file(src, dest, fs::copy_option::overwrite_if_exists);
+	fs::copy_file(src, dest, fs::copy_options::overwrite_existing);
 }
 
 CWorkCopy::~CWorkCopy()
 {
 	if (!m_keep)
 	{
-		boost::system::error_code ec;
+		std::error_code ec;
 		fs::remove(m_path, ec);
 	}
 }

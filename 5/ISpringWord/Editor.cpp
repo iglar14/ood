@@ -10,11 +10,11 @@ namespace ph = std::placeholders;
 
 namespace
 {
-boost::optional<size_t> ReadPos(istream& in)
+std::optional<size_t> ReadPos(istream& in)
 {
 	string dest;
 	in >> dest;
-	boost::optional<size_t> pos;
+	std::optional<size_t> pos;
 	if (dest != "end")
 	{
 		pos = boost::lexical_cast<size_t>(dest);
@@ -90,14 +90,14 @@ void CEditor::SetTitle(istream & in)
 
 void CEditor::InsertParagraph(istream & in)
 {
-	boost::optional<size_t> pos = ReadPos(in);
+	std::optional<size_t> pos = ReadPos(in);
 	string par = ReadText(in);
 	m_document->InsertParagraph(par, pos);
 }
 
 void CEditor::InsertImage(istream & in)
 {
-	boost::optional<size_t> pos = ReadPos(in);
+	std::optional<size_t> pos = ReadPos(in);
 	int width = 0;
 	int height = 0;
 	in >> width;
@@ -109,7 +109,7 @@ void CEditor::InsertImage(istream & in)
 		cout << "Insufficient parameters\n";
 		return;
 	}
-	if (!boost::filesystem::exists(path))
+	if (!std::filesystem::exists(path))
 	{
 		cout << "File \"" << path << "\"not found\n";
 		return;

@@ -6,9 +6,9 @@
 #include <tchar.h>
 
 #include <deque>
+#include <filesystem>
+#include <fstream>
+#include <optional>
 
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
-#include <boost\optional.hpp>
-#include <boost\none.hpp>
-#include <boost\filesystem.hpp>

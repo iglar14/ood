@@ -2,7 +2,7 @@
 #include "SaveStorage.h"
 #include "WorkCopy.h"
 
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 
 CSaveStorage::CSaveStorage(const fs::path& outFilePath)
 {

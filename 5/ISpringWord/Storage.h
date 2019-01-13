@@ -7,11 +7,11 @@ public:
 	CStorage();
 	~CStorage() override;
 
-	std::unique_ptr<IWorkCopy> AddFile(const boost::filesystem::path& path) override;
+	std::unique_ptr<IWorkCopy> AddFile(const std::filesystem::path& path) override;
 
 private:
-	boost::filesystem::path GetNextFileName(const boost::filesystem::path& ext);
+	std::filesystem::path GetNextFileName(const std::filesystem::path& ext);
 
-	boost::filesystem::path m_tempDir;
+	std::filesystem::path m_tempDir;
 	size_t m_counter = 0;
 };

@@ -4,7 +4,7 @@
 #include "../ISpringWord/HtmlExporter.h"
 #include "../ISpringWord/WordException.h"
 
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 using namespace std;
 
 namespace

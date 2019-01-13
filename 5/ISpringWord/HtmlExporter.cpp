@@ -5,7 +5,7 @@
 #include "WordException.h"
 #include <boost/algorithm/string/replace.hpp>
 
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 
 namespace
 {
