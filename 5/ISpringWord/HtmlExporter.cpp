@@ -31,7 +31,7 @@ void AddTitleTag(std::ostream& strm, const std::string& title)
 }
 void AddImageTag(std::ostream& strm, const fs::path& p, int width, int height)
 {
-	strm << "<img src=\"" << Escape(p.string()) << "\" width=\"" << width << "\" height=\"" << height << "\">\n";
+	strm << "<img src=\"" << Escape(p.generic_string()) << "\" width=\"" << width << "\" height=\"" << height << "\">\n";
 }
 void AddParagraphTag(std::ostream& strm, const std::string& text)
 {
