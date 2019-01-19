@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Image.h"
 #include "AbstractCommand.h"
-//#include "FunctionalCommand.h"
 #include "WordException.h"
 
 class CImage::CResizeImageCommand :
@@ -31,15 +30,15 @@ private:
 	int m_width, m_height;
 };
 
-CImage::CImage(IHistory& history, std::unique_ptr<IWorkCopy> wc)
+CImage::CImage(ICommandExecutor& commandExecutor, std::unique_ptr<IWorkCopy> wc)
 	: m_copy(std::move(wc))
-	, m_history(history)
+	, m_commandExecutor(commandExecutor)
 {
 }
 
-std::shared_ptr<CImage> CImage::Create(IHistory& history, std::unique_ptr<IWorkCopy> wc, int width, int height)
+std::shared_ptr<CImage> CImage::Create(ICommandExecutor& commandExecutor, std::unique_ptr<IWorkCopy> wc, int width, int height)
 {
-	auto img = std::shared_ptr<CImage>(new CImage(history, std::move(wc)));
+	auto img = std::shared_ptr<CImage>(new CImage(commandExecutor, std::move(wc)));
 	img->ResizeImpl(width, height)->Execute();
 	return img;
 }
@@ -51,7 +50,7 @@ std::string CImage::GetPath()const
 
 void CImage::Resize(int width, int height)
 {
-	m_history.AddAndExecuteCommand(ResizeImpl(width, height));
+	m_commandExecutor.AddAndExecuteCommand(ResizeImpl(width, height));
 }
 
 ICommandPtr CImage::ResizeImpl(int width, int height)
@@ -62,14 +61,5 @@ ICommandPtr CImage::ResizeImpl(int width, int height)
 		throw CWordException("Invalid image size");
 	}
 	auto img = shared_from_this();
-/*	auto executor = [img, width, height] {
-		img->m_width = width;
-		img->m_height = height;
-	};
-	auto unexecutor = [img, width = m_width, height = m_height] {
-		img->m_width = width;
-		img->m_height = height;
-	};
-	return std::make_unique<CFunctionalCommand>(executor, unexecutor);*/
 	return std::make_unique<CResizeImageCommand>(img, width, height);
 }

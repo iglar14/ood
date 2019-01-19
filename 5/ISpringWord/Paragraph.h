@@ -1,5 +1,5 @@
 #pragma once
-#include "IHistory.h"
+#include "ICommandExecutor.h"
 #include "IParagraph.h"
 
 class CParagraphImpl;
@@ -7,7 +7,7 @@ class CParagraphImpl;
 class CParagraph : public IParagraph, public std::enable_shared_from_this<CParagraph>
 {
 public:
-	CParagraph(IHistory& history, const std::string& text);
+	CParagraph(ICommandExecutor& commandExecutor, const std::string& text);
 
 	std::string GetText()const override;
 	void SetText(const std::string& text) override;
@@ -15,7 +15,7 @@ public:
 private:
 	class CReplaceTextCommand;
 
-	IHistory& m_history;
+	ICommandExecutor& m_commandExecutor;
 	std::string m_text;
 };
 

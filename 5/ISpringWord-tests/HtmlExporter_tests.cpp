@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE(exports_escaped_paragraph)
 }
 BOOST_AUTO_TEST_CASE(exports_image)
 {
-	static const string IMAGE_PATH = "c:\\img.jpg";
+	static const string IMAGE_PATH = "c:/img.jpg";
 	m_document.InsertImage(IMAGE_PATH, 1024, 768);
 	Export();
 	BOOST_CHECK_EQUAL(m_stream.str(), HTML_START + HTML_BODY_START + "<img src=\"" + IMAGE_PATH + "\" width=\"1024\" height=\"768\">\n" + HTML_END);
@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE(exports_image)
 BOOST_AUTO_TEST_CASE(escapes_special_characters_in_path)	// тест не актуален, потому что настоящий Storage не сгенерит такой путь
 {
 	static const string IMAGE_PATH = "c:\\&img.jpg";
-	static const string ESCAPED_IMAGE_PATH = "c:\\&amp;img.jpg";
+	static const string ESCAPED_IMAGE_PATH = "c:/&amp;img.jpg";
 	m_document.InsertImage(IMAGE_PATH, 1024, 768);
 	Export();
 	BOOST_CHECK_EQUAL(m_stream.str(), HTML_START + HTML_BODY_START + "<img src=\"" + ESCAPED_IMAGE_PATH + "\" width=\"1024\" height=\"768\">\n" + HTML_END);

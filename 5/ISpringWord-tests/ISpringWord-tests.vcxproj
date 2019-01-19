@@ -60,6 +60,9 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>$(TargetPath)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -77,11 +80,15 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>$(TargetPath)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\ISpringWord\AbstractCommand.h" />
     <ClInclude Include="..\ISpringWord\ChangeStringCommand.h" />
     <ClInclude Include="..\ISpringWord\Document.h" />
+    <ClInclude Include="..\ISpringWord\FunctionalCommand.h" />
     <ClInclude Include="..\ISpringWord\History.h" />
     <ClInclude Include="..\ISpringWord\HtmlExporter.h" />
     <ClInclude Include="..\ISpringWord\ICommand.h" />

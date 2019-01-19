@@ -33,16 +33,10 @@
     <ClInclude Include="IImage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ImageImpl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Paragraph.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ParagraphImpl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ICommand.h">
@@ -99,10 +93,10 @@
     <ClInclude Include="SaveStorage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FunctionalCommand.h">
+    <ClInclude Include="IHistory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IHistory.h">
+    <ClInclude Include="ICommandExecutor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -119,16 +113,10 @@
     <ClCompile Include="DocumentItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ImageImpl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Paragraph.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ParagraphImpl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Document.cpp">

@@ -27,8 +27,8 @@ private:
 	std::string m_text;
 };
 
-CParagraph::CParagraph(IHistory& history, const std::string& text)
-	: m_history(history)
+CParagraph::CParagraph(ICommandExecutor& commandExecutor, const std::string& text)
+	: m_commandExecutor(commandExecutor)
 	, m_text(text)
 {
 }
@@ -40,5 +40,5 @@ std::string CParagraph::GetText()const
 void CParagraph::SetText(const std::string& text)
 {
 	auto thisPara = shared_from_this();
-	m_history.AddAndExecuteCommand(std::make_unique<CReplaceTextCommand>(thisPara, text));
+	m_commandExecutor.AddAndExecuteCommand(std::make_unique<CReplaceTextCommand>(thisPara, text));
 }

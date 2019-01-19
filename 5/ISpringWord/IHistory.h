@@ -1,7 +1,7 @@
 #pragma once
-#include "ICommand_fwd.h"
+#include "ICommandExecutor.h"
 
-struct IHistory
+struct IHistory : ICommandExecutor
 {
 	virtual ~IHistory() = default;
 
@@ -9,6 +9,5 @@ struct IHistory
 	virtual void Undo() = 0;
 	virtual bool CanRedo()const = 0;
 	virtual void Redo() = 0;
-	virtual void AddAndExecuteCommand(ICommandPtr && command) = 0;
 };
 
